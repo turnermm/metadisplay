@@ -1,21 +1,23 @@
 <?php
 define ('PAGES', '/home/samba/html/mturner/devel/data/pages');
 global $timezone, $current;
-
-$timezone = 'UTC'; // default timezone is set to Coordinated Univeral Time. You can reset your timezone here
-date_default_timezone_set($timezone);
-chdir('/var/www/html/mturner/devel/data/meta');
 $realpath = realpath('.');
 $prefix = preg_replace("/.*?\/data\/meta/", "", $realpath);
 $prefix = ($depth = str_replace('/', ':', $prefix)) ? $depth : '';
+class helper_plugin_example extends DokuWiki_Plugin {
+function init() {
+    $timezone = 'UTC'; // default timezone is set to Coordinated Univeral Time. You can reset your timezone here
+    date_default_timezone_set($timezone);
+    chdir('/var/www/html/mturner/devel/data/meta');  
 
-ob_start();
-recurse('.');
-$contents = ob_get_contents();
-ob_end_clean();
-$contents = str_replace("<table.*?>\n</table>","",$contents);
-echo $contents;
-
+    ob_start();
+    $this->recurse('.');
+    $contents = ob_get_contents();
+    ob_end_clean();
+    $contents = str_replace("<table.*?>\n</table>","",$contents);
+    echo $contents;
+ }
+ 
 function recurse($dir) {
     global $prefix;
     $dh = opendir($dir);
@@ -23,12 +25,12 @@ function recurse($dir) {
 
     while (($file = readdir($dh)) !== false) {
         if ($file == '.' || $file == '..') continue;
-        if (is_dir("$dir/$file")) recurse("$dir/$file");
+        if (is_dir("$dir/$file")) $this->recurse("$dir/$file");
         if (preg_match("/\.meta$/", $file)) {            
             $store_name = preg_replace('/^\./', $prefix, "$dir/$file");
             $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';            
             if(!file_exists($id_name)) continue;            
-            get_data("$dir/$file","$id_name");
+            $this->get_data("$dir/$file","$id_name");
             echo "\n";
         }
     }
@@ -51,39 +53,39 @@ function get_data($file,$id_path) {
     foreach ($keys AS $header) {
         switch($header) {
             case 'title':               
-                 $title = getcurrent($header, null);
+                 $title = $this->getcurrent($header, null);
                  echo "<tr><td colspan='2'>Title: <b>$title</b></td></tr>\n";
                  break;                     
                 
             case 'date':                        
-                 process_dates(getcurrent('date', 'created'),getcurrent('date', 'modified'));  
+                 $this->process_dates($this->getcurrent('date', 'created'),$this->getcurrent('date', 'modified'));  
                  break;                 
             case 'user':
                 if($creator || $creator_id) break; 
             case 'creator':
-                $creator = getcurrent('creator', null);
-                $creator_id = getcurrent('user', null);
-                process_users($creator,$creator_id);  
+                $creator = $this->getcurrent('creator', null);
+                $creator_id = $this->getcurrent('user', null);
+                $this->process_users($creator,$creator_id);  
                  break;
            
             case 'last_change':                                           
-                $last_change = getSimpleKeyValue(getcurrent($header, null),"last_change");
+                $last_change = $this->getSimpleKeyValue($this->getcurrent($header, null),"last_change");
                  if($last_change) {
                     echo "<tr><td colspan='2'>Last Change</td>\n"; 
                     echo "<td>$last_change</td></tr>\n"; 
                 }
                 break;              
             case 'contributor':       
-                 $contributors = getSimpleKeyValue(getcurrent($header, null));
+                 $contributors = $this->getSimpleKeyValue($this->getcurrent($header, null));
                  break;   
             case 'relation':                
-                $isreferencedby = getcurrent($header,'isreferencedby');
-                $references = getcurrent($header,'references');
-                $media = getcurrent($header,'media');
-                $firstimage = getcurrent($header,'firstimage');
-                $haspart = getcurrent($header,'haspart');
-                $subject = getcurrent($header,'subject');
-                process_relation($isreferencedby,$references,$media,$firstimage,$haspart,$subject);
+                $isreferencedby = $this->getcurrent($header,'isreferencedby');
+                $references = $this->getcurrent($header,'references');
+                $media = $this->getcurrent($header,'media');
+                $firstimage = $this->getcurrent($header,'firstimage');
+                $haspart = $this->getcurrent($header,'haspart');
+                $subject = $this->getcurrent($header,'subject');
+                $this->process_relation($isreferencedby,$references,$media,$firstimage,$haspart,$subject);
                 break;
             default:
 
@@ -152,27 +154,27 @@ function insertListInTable($list,$type) {
 function process_relation($isreferencedby,$references,$media,$firstimage,$haspart,$subject) {
   
     if(!empty($isreferencedby)) {         
-        $list = create_list(array_keys($isreferencedby));
-        insertListInTable($list,'Backlinks');
+        $list = $this->create_list(array_keys($isreferencedby));
+        $this->insertListInTable($list,'Backlinks');
     }
     if(!empty($references)) {           
-       $list = create_list(array_keys($references));
-       insertListInTable($list,'Links');           
+       $list = $this->create_list(array_keys($references));
+       $this->insertListInTable($list,'Links');           
     }
     if(!empty($media)) {          
-       $list = create_list(array_keys($media));
-       insertListInTable($list,'Media');           
+       $list = $this->create_list(array_keys($media));
+       $this->insertListInTable($list,'Media');           
     }
     if(!empty($firstimage)) {
        echo "<tr><td>First Image</td><td colspan='2'>$firstimage</td></tr>";      
     }   
     if(!empty($haspart)) {      
-       $list = create_list(array_keys($haspart)); 
-       insertListInTable($list,'haspart');
+       $list = $this->create_list(array_keys($haspart)); 
+      $this->insertListInTable($list,'haspart');
     }  
     if(!empty($subject)) {
        $list = create_list(array_keys($subject));
-       insertListInTable($list,'Subject');
+       $this->insertListInTable($list,'Subject');
     }       
  
 }
@@ -197,4 +199,5 @@ function getcurrent($which, $other) {
         return $current[$which];
     }
     return "";
+}
 }
