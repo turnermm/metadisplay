@@ -4,7 +4,9 @@ global $timezone, $current;
 $realpath = realpath('.');
 $prefix = preg_replace("/.*?\/data\/meta/", "", $realpath);
 $prefix = ($depth = str_replace('/', ':', $prefix)) ? $depth : '';
-class helper_plugin_example extends DokuWiki_Plugin {
+//echo "$prefix, $depth\n";
+//exit;
+class helper_plugin_metadisplay extends DokuWiki_Plugin {
 function init() {
     $timezone = 'UTC'; // default timezone is set to Coordinated Univeral Time. You can reset your timezone here
     date_default_timezone_set($timezone);

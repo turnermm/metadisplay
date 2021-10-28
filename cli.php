@@ -2,12 +2,11 @@
 if(!defined('DOKU_INC')) die();
 use splitbrain\phpcli\Options;
 
-//include_once(DOKU_PLUGIN . "example/createMetaArray.php");
-class cli_plugin_example extends DokuWiki_CLI_Plugin {
+class cli_plugin_metadisplay extends DokuWiki_CLI_Plugin {
 private $helper;    
 protected function setup(Options $options) {
-     $this->helper =  plugin_load('helper','example');  
-    $options->setHelp('A very minimal example that does nothing but print the plugin version info');
+    $this->helper =  plugin_load('helper','metadisplay');  
+    $options->setHelp('A very minimal metadisplay that does nothing but print the plugin version info');
     $options->registerOption('version', 'print version', 'v');
 }
 
