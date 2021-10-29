@@ -4,12 +4,14 @@ $realpath = realpath('.');
 $prefix = preg_replace("/.*?\/data\/meta/", "", $realpath);
 $prefix = ($depth = str_replace('/', ':', $prefix)) ? $depth : '';
 define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;
-
-class helper_plugin_metadisplay extends DokuWiki_Plugin {
+chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta');  
+class helper_plugin_metadisplay_html extends DokuWiki_Plugin {
 function init() {
+   
     $timezone = 'UTC'; // default timezone is set to Coordinated Univeral Time. You can reset your timezone here
     date_default_timezone_set($timezone);
-    chdir('/var/www/html/mturner/devel/data/meta');  
+  
+    
 
     ob_start();
     $this->recurse('.');
