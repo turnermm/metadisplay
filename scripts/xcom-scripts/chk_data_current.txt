@@ -1,0 +1,664 @@
+
+<pre>realpath=/var/www/html/mturner/devel/data/meta
+prefix = 
+storage name = /epub_book_1.meta
+storage name = :epub_book_1.meta
+(1) ./epub_book_1.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /index.meta
+storage name = :index.meta
+(2) ./index.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+Internal links:
+	intro
+	wiki:welcome
+	vkeyboard
+	git:dokuwiki
+	credits:plugin_credits
+	credits:credits_desc
+	events:event_handlers
+	events:event_handlers_code
+	events:event_objects
+	playground:examples
+	other:xml
+
+storage name = /playground/mathjax.meta
+storage name = :playground:mathjax.meta
+(3) ./playground/mathjax.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /playground/phone-tests.meta
+storage name = :playground:phone-tests.meta
+(4) ./playground/phone-tests.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /playground/tests/codeblock.meta
+storage name = :playground:tests:codeblock.meta
+(5) ./playground/tests/codeblock.meta
+Date created: Thu, 11 Mar 2021 23:41:50 +0000 (1615506110)
+Last modified: Fri, 12 Mar 2021 15:25:26 +0000  (1615562726)
+Created by: Mike Turner  (userid: tower)
+Contributors:
+	tower => Mike Turner
+Last Change: 
+	date => 1615562726
+	ip => 192.168.1.28
+	type => E
+	id => playground:tests:codeblock
+	user => tower
+	sum => 
+	extra => 
+	sizechange => 7
+
+storage name = /playground/tests/link.meta
+storage name = :playground:tests:link.meta
+(6) ./playground/tests/link.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /playground/using_wrap.meta
+storage name = :playground:using_wrap.meta
+(7) ./playground/using_wrap.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Thu, 25 Feb 2021 16:05:17 +0000  (1614269117)
+Created by:   (userid: )
+Contributors:
+	tower => 
+Last Change: 
+	date => 1614269117
+	ip => 192.168.1.28
+	type => C
+	id => playground:using_wrap
+	user => tower
+	sum => ↷ Page name changed from playground:start to playground:using_wrap
+	extra => 
+	sizechange => 86
+Internal links:
+	playground:wrap_examples
+
+storage name = /playground/geshi.meta
+storage name = :playground:geshi.meta
+(8) ./playground/geshi.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /playground/start.meta
+storage name = :playground:start.meta
+(9) ./playground/start.meta
+Last modified: Thu, 28 Sep 2017 11:08:39 +0000  (1506596919)
+Created by:   (userid: )
+Last Change: 
+	date => 1506596919
+	ip => 127.0.0.1
+	type => E
+	id => playground:start
+	user => 
+	sum => external edit
+	extra => 
+	sizechange => 86
+
+storage name = /playground/ckgedit_wrap.meta
+storage name = :playground:ckgedit_wrap.meta
+(10) ./playground/ckgedit_wrap.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /playground/examples.meta
+storage name = :playground:examples.meta
+(11) ./playground/examples.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+Internal links:
+	playground:ckgedit_wrap
+	playground:complex_tables
+	playground:copy_tables
+	playground:include_ditaa
+	playground:line_spacing
+	playground:links
+	playground:sortable
+	playground:wrap_examples
+	playground:imageref
+
+storage name = /playground/mp4.meta
+storage name = :playground:mp4.meta
+(12) ./playground/mp4.meta
+Date created: Tue, 23 Feb 2021 15:04:29 +0000 (1614092669)
+Created by: Mike Turner  (userid: tower)
+Last Change: 
+	date => 1614092669
+	ip => 192.168.1.28
+	type => C
+	id => playground:mp4
+	user => tower
+	sum => created
+	extra => 
+	sizechange => 77
+
+storage name = /playground/geshi/downloadable.meta
+storage name = :playground:geshi:downloadable.meta
+(13) ./playground/geshi/downloadable.meta
+Date created: Sun, 28 Feb 2021 18:21:47 +0000 (1614536507)
+Last modified: Sun, 28 Feb 2021 18:49:29 +0000  (1614538169)
+Created by: Mike Turner  (userid: tower)
+Contributors:
+	tower => Mike Turner
+Last Change: 
+	date => 1614538169
+	ip => 192.168.1.28
+	type => C
+	id => playground:geshi:downloadable
+	user => tower
+	sum => created
+	extra => 
+	sizechange => 401
+
+storage name = /playground/code_block_test.meta
+storage name = :playground:code_block_test.meta
+(14) ./playground/code_block_test.meta
+Date created: Tue, 09 Mar 2021 14:50:51 +0000 (1615301451)
+Last modified: Tue, 09 Mar 2021 15:01:02 +0000  (1615302062)
+Created by: Myron Turner  (userid: tower2)
+Contributors:
+	tower2 => Myron Turner
+Last Change: 
+	date => 1615302062
+	ip => 192.168.1.28
+	type => E
+	id => playground:code_block_test
+	user => tower2
+	sum => [Headline] 
+	extra => 
+	sizechange => 7
+
+storage name = /playground/tocselect.meta
+storage name = :playground:tocselect.meta
+(15) ./playground/tocselect.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /playground/fmanners.meta
+storage name = :playground:fmanners.meta
+(16) ./playground/fmanners.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /git/ckgedit.meta
+storage name = :git:ckgedit.meta
+(17) ./git/ckgedit.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Fri, 26 Feb 2021 19:54:12 +0000  (1614369252)
+Created by:   (userid: )
+Contributors:
+	tower => Mike Turner
+Last Change: 
+	date => 1614369252
+	ip => 192.168.1.28
+	type => E
+	id => git:ckgedit
+	user => tower
+	sum => 
+	extra => 
+	sizechange => 2
+
+storage name = /git/new1.meta
+storage name = :git:new1.meta
+(18) ./git/new1.meta
+Date created: Fri, 26 Feb 2021 19:48:47 +0000 (1614368927)
+Created by:   (userid: )
+
+storage name = /start.meta
+storage name = :start.meta
+(19) ./start.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Sat, 20 Mar 2021 23:59:04 +0000  (1616284744)
+Created by:   (userid: )
+Contributors:
+	tower => Mike Turner
+Last Change: 
+	date => 1616284744
+	ip => 192.168.1.28
+	type => E
+	id => start
+	user => tower
+	sum => 
+	extra => 
+	sizechange => 456
+Internal links:
+	intro
+	wiki:welcome
+	vkeyboard
+	git:dokuwiki
+	credits:plugin_credits
+	credits:credits_desc
+	events:event_handlers
+	events:event_handlers_code
+	events:event_objects
+	playground:examples
+	other:xml
+
+storage name = /snippets/menu_items.meta
+storage name = :snippets:menu_items.meta
+(20) ./snippets/menu_items.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Thu, 25 Feb 2021 16:16:19 +0000  (1614269779)
+Created by:   (userid: )
+Contributors:
+	tower => Mike Turner
+Last Change: 
+	date => 1614269779
+	ip => 192.168.1.28
+	type => E
+	id => snippets:menu_items
+	user => tower
+	sum => 
+	extra => 
+	sizechange => 107
+Internal links:
+	devel:snippets
+	devel:epub
+
+storage name = /snippets/block_text.meta
+storage name = :snippets:block_text.meta
+(21) ./snippets/block_text.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Wed, 16 Aug 2017 20:37:01 +0000  (1502915821)
+Created by:   (userid: )
+Last Change: 
+	date => 1502915821
+	ip => 127.0.0.1
+	type => E
+	id => snippets:block_text
+	user => 
+	sum => external edit
+	extra => 
+	sizechange => 88
+
+storage name = /snippets/snippets.meta
+storage name = :snippets:snippets.meta
+(22) ./snippets/snippets.meta
+Last modified: Wed, 27 Nov 2019 17:42:37 +0000  (1574876557)
+Created by:   (userid: )
+Last Change: 
+	date => 1574876557
+	ip => 127.0.0.1
+	type => E
+	id => snippets:snippets
+	user => 
+	sum => external edit
+	extra => 
+	sizechange => 17
+
+storage name = /credits/credits.meta
+storage name = :credits:credits.meta
+(23) ./credits/credits.meta
+Last modified: Mon, 27 Jan 2014 03:55:50 +0000  (1390794950)
+Created by:   (userid: )
+Last Change: 
+	date => 1390794950
+	ip => 127.0.0.1
+	type => E
+	id => credits:credits
+	user => 
+	sum => external edit
+	extra => 
+	sizechange => 13
+
+storage name = /credits/credits_desc.meta
+storage name = :credits:credits_desc.meta
+(24) ./credits/credits_desc.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Wed, 24 Feb 2021 16:02:12 +0000  (1614182532)
+Created by:   (userid: )
+Contributors:
+	tower => 
+Last Change: 
+	date => 1614182532
+	ip => 192.168.1.28
+	type => C
+	id => credits:credits_desc
+	user => tower
+	sum => ↷ Page name changed from credits:credits to credits:credits_desc
+	extra => 
+	sizechange => 13
+
+storage name = /credits/plugin_credits.meta
+storage name = :credits:plugin_credits.meta
+(25) ./credits/plugin_credits.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+Internal links:
+	credits:credits
+	credits:credits_nodesca
+
+storage name = /credits/credits_nodesca.meta
+storage name = :credits:credits_nodesca.meta
+(26) ./credits/credits_nodesca.meta
+Created by:   (userid: )
+
+storage name = /credits/credits_nodesc.meta
+storage name = :credits:credits_nodesc.meta
+(27) ./credits/credits_nodesc.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Wed, 24 Feb 2021 16:01:32 +0000  (1614182492)
+Created by:   (userid: )
+Contributors:
+	tower => 
+Last Change: 
+	date => 1614182492
+	ip => 192.168.1.28
+	type => C
+	id => credits:credits_nodesc
+	user => tower
+	sum => ↷ Page name changed from credits:credits_nodesca to credits:credits_nodesc
+	extra => 
+	sizechange => 23
+
+storage name = /events/event_handlers.meta
+storage name = :events:event_handlers.meta
+(28) ./events/event_handlers.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+Internal links:
+	events:event_handlers_code
+	events:event_handlers
+
+storage name = /fckl/symchk.meta
+storage name = :fckl:symchk.meta
+(29) ./fckl/symchk.meta
+
+storage name = /fckl/scayt.meta
+storage name = :fckl:scayt.meta
+(30) ./fckl/scayt.meta
+
+storage name = /users/tower.meta
+storage name = :users:tower.meta
+(31) ./users/tower.meta
+Date created: Mon, 01 Mar 2021 15:39:45 +0000 (1614613185)
+Created by: Mike Turner  (userid: tower)
+Last Change: 
+	date => 1614613185
+	ip => 192.168.1.28
+	type => C
+	id => users:tower
+	user => tower
+	sum => created
+	extra => 
+	sizechange => 3
+
+storage name = /epub_sample.meta
+storage name = :epub_sample.meta
+(32) ./epub_sample.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /epub_book_4.meta
+storage name = :epub_book_4.meta
+(33) ./epub_book_4.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /devel/snippets/working_page.meta
+storage name = :devel:snippets:working_page.meta
+(34) ./devel/snippets/working_page.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+Internal links:
+	plugin:plugin
+	plugins
+
+storage name = /devel/snippets_plugin.meta
+storage name = :devel:snippets_plugin.meta
+(35) ./devel/snippets_plugin.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+Internal links:
+	plugin:plugin
+	plugins
+	plugin:snippets:original
+
+storage name = /devel/ckgedit/configuration.meta
+storage name = :devel:ckgedit:configuration.meta
+(36) ./devel/ckgedit/configuration.meta
+Date created: Thu, 25 Feb 2021 03:58:20 +0000 (1614225500)
+Created by:   (userid: )
+
+storage name = /devel/epub.meta
+storage name = :devel:epub.meta
+(37) ./devel/epub.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /devel/snippets.meta
+storage name = :devel:snippets.meta
+(38) ./devel/snippets.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /totals.meta
+storage name = :totals.meta
+(39) ./totals.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /start_2t.meta
+storage name = :start_2t.meta
+(40) ./start_2t.meta
+Date created: Mon, 22 Mar 2021 14:36:53 +0000 (1616423813)
+Last modified: Mon, 22 Mar 2021 16:40:09 +0000  (1616431209)
+Created by: Myron Turner  (userid: tower)
+Contributors:
+	tower => Myron Turner
+Last Change: 
+	date => 1616431209
+	ip => 192.168.1.28
+	type => E
+	id => start_2t
+	user => tower
+	sum => 
+	extra => 
+	sizechange => 38
+Internal links:
+	wiki:welcome
+
+storage name = /other/xml_scayt.meta
+storage name = :other:xml_scayt.meta
+(41) ./other/xml_scayt.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Sun, 21 Mar 2021 00:36:21 +0000  (1616286981)
+Created by:   (userid: )
+Contributors:
+	tower => Mike Turner
+Last Change: 
+	date => 1616286981
+	ip => 192.168.1.28
+	type => E
+	id => other:xml_scayt
+	user => tower
+	sum => 
+	extra => 
+	sizechange => 56
+Internal links:
+	wiki:welcome
+	wiki:dokuwiki
+	events:event_handlers
+
+storage name = /other/xml.meta
+storage name = :other:xml.meta
+(42) ./other/xml.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Sat, 20 Mar 2021 23:46:55 +0000  (1616284015)
+Created by:   (userid: )
+Contributors:
+	tower => Mike Turner
+Last Change: 
+	date => 1616284015
+	ip => 192.168.1.28
+	type => E
+	id => other:xml
+	user => tower
+	sum => 
+	extra => 
+	sizechange => -62
+
+storage name = /sidebar.meta
+storage name = :sidebar.meta
+(43) ./sidebar.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /xmlrpc/dates.meta
+storage name = :xmlrpc:dates.meta
+(44) ./xmlrpc/dates.meta
+Date created: Fri, 19 Mar 2021 18:13:43 +0000 (1616177623)
+Created by: Mike Turner  (userid: tower)
+Last Change: 
+	date => 1616177623
+	ip => 192.168.1.28
+	type => C
+	id => xmlrpc:dates
+	user => tower
+	sum => created
+	extra => 
+	sizechange => 7
+
+storage name = /xmlrpc/functions.meta
+storage name = :xmlrpc:functions.meta
+(45) ./xmlrpc/functions.meta
+Date created: Fri, 19 Mar 2021 17:25:58 +0000 (1616174758)
+Last modified: Sat, 20 Mar 2021 14:29:19 +0000  (1616250559)
+Created by: Mike Turner  (userid: tower)
+Contributors:
+	tower => Mike Turner
+
+storage name = /mpeg/books.meta
+storage name = :mpeg:books.meta
+(46) ./mpeg/books.meta
+Last modified: Sun, 23 Jul 2017 18:39:52 +0000  (1500835192)
+Created by:   (userid: )
+Last Change: 
+	date => 1500835192
+	ip => 127.0.0.1
+	type => E
+	id => mpeg:books
+	user => 
+	sum => external edit
+	extra => 
+	sizechange => 179
+
+storage name = /mpeg/shakespeare.meta
+storage name = :mpeg:shakespeare.meta
+(47) ./mpeg/shakespeare.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Thu, 25 Feb 2021 16:03:46 +0000  (1614269026)
+Created by:   (userid: )
+Contributors:
+	tower => 
+Last Change: 
+	date => 1614269026
+	ip => 192.168.1.28
+	type => C
+	id => mpeg:shakespeare
+	user => tower
+	sum => ↷ Page name changed from mpeg:books to mpeg:shakespeare
+	extra => 
+	sizechange => 179
+
+storage name = /mpeg/xmlrpc/https_err.meta
+storage name = :mpeg:xmlrpc:https_err.meta
+(48) ./mpeg/xmlrpc/https_err.meta
+Date created: Sun, 07 Mar 2021 04:26:35 +0000 (1615091195)
+Last modified: Sun, 07 Mar 2021 04:36:51 +0000  (1615091811)
+Created by: Mike Turner  (userid: tower)
+Contributors:
+	tower => Mike Turner
+Last Change: 
+	date => 1615091811
+	ip => 192.168.1.28
+	type => E
+	id => mpeg:xmlrpc:https_err
+	user => tower
+	sum => 
+	extra => 
+	sizechange => 3
+
+storage name = /quotes/donna_leon.meta
+storage name = :quotes:donna_leon.meta
+(49) ./quotes/donna_leon.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Thu, 25 Feb 2021 16:08:17 +0000  (1614269297)
+Created by:   (userid: )
+Contributors:
+	tower => 
+Last Change: 
+	date => 1614269297
+	ip => 192.168.1.28
+	type => C
+	id => quotes:donna_leon
+	user => tower
+	sum => ↷ Page name changed from quotes:donn_leon to quotes:donna_leon
+	extra => 
+	sizechange => 801
+
+storage name = /quotes/donn_leon.meta
+storage name = :quotes:donn_leon.meta
+(50) ./quotes/donn_leon.meta
+Last modified: Tue, 14 May 2019 02:36:43 +0000  (1557801403)
+Created by:   (userid: )
+Last Change: 
+	date => 1557801403
+	ip => 127.0.0.1
+	type => E
+	id => quotes:donn_leon
+	user => 
+	sum => external edit
+	extra => 
+	sizechange => 801
+
+storage name = /wiki/new.meta
+storage name = :wiki:new.meta
+(51) ./wiki/new.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+
+storage name = /wiki/welcome.meta
+storage name = :wiki:welcome.meta
+(52) ./wiki/welcome.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+Internal links:
+	start
+	wiki:syntax
+	sidebar
+
+storage name = /wiki/nav.meta
+storage name = :wiki:nav.meta
+(53) ./wiki/nav.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Last modified: Wed, 24 Feb 2021 15:53:42 +0000  (1614182022)
+Created by:   (userid: )
+Contributors:
+	tower => Mike Turner
+Last Change: 
+	date => 1614182022
+	ip => 192.168.1.28
+	type => E
+	id => wiki:nav
+	user => tower
+	sum => 
+	extra => 
+	sizechange => -20
+
+storage name = /wiki/dokuwiki.meta
+storage name = :wiki:dokuwiki.meta
+(54) ./wiki/dokuwiki.meta
+Date created: Mon, 22 Feb 2021 18:55:14 +0000 (1614020114)
+Created by:   (userid: )
+Internal links:
+	wiki:syntax
+
+</pre>
