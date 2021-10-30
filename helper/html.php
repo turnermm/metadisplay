@@ -1,18 +1,13 @@
 <?php
 global $timezone, $current,$conf;
-$realpath = realpath('.');
-$prefix = preg_replace("/.*?\/data\/meta/", "", $realpath);
-$prefix = ($depth = str_replace('/', ':', $prefix)) ? $depth : '';
 define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;
-chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta');  
+
 class helper_plugin_metadisplay_html extends DokuWiki_Plugin {
 function init() {
-   
+    global $conf;
+    chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta');  
     $timezone = 'UTC'; // default timezone is set to Coordinated Univeral Time. You can reset your timezone here
     date_default_timezone_set($timezone);
-  
-    
-
     ob_start();
     $this->recurse('.');
     $contents = ob_get_contents();
@@ -22,7 +17,7 @@ function init() {
  }
  
 function recurse($dir) {
-    global $prefix;
+
     $dh = opendir($dir);
     if (!$dh) return;
 
@@ -31,6 +26,7 @@ function recurse($dir) {
         if (is_dir("$dir/$file")) $this->recurse("$dir/$file");
         if (preg_match("/\.meta$/", $file)) {            
             $store_name = preg_replace('/^\./', $prefix, "$dir/$file");
+            $store_name = preg_replace('/^\./', "", "$dir/$file");
             $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';            
             if(!file_exists($id_name)) continue;            
             $this->get_data("$dir/$file","$id_name");
@@ -40,6 +36,11 @@ function recurse($dir) {
 
     closedir($dh);
 }
+
+/*
+  @param string $file, the meta file
+  @param string $id_path, path to dokuwiki page   
+*/
 function get_data($file,$id_path) {
     global $current;
     $data = file_get_contents($file);
