@@ -1,7 +1,7 @@
 base goto
 author turnermm
 email turnermm02@shaw.ca
-date 2021-03-01
+date 2021-10-31
 name metadisplay
 desc parse and output metadata
 url https://www.dokuwiki.org/plugin:metadisplay
