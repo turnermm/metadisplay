@@ -19,7 +19,6 @@ protected function main(Options $options)
 {       
     $helper =  plugin_load('helper','metadisplay_html');   
     if ($options->getOpt('namespace')) {    
-  //  print_r(($options->getArgs())[0]);
         $helper->init(($options->getArgs())[0]);
     }
     if ($options->getOpt('version')) {
