@@ -3,8 +3,9 @@ global $timezone, $current,$conf;
 define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;
 
 class helper_plugin_metadisplay_html extends DokuWiki_Plugin {
-function init() {
+function init($dir) {
     global $conf;
+    echo $dir ."\n"; exit;
     chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta');  
     $timezone = 'UTC'; // default timezone is set to Coordinated Univeral Time. You can reset your timezone here
     date_default_timezone_set($timezone);
