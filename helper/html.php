@@ -1,4 +1,5 @@
 <?php
+if(!defined('DOKU_INC')) die();
 global $timezone, $current,$conf;
 define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;
 
