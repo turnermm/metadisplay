@@ -21,9 +21,8 @@ protected function main(Options $options)
     if ($options->getOpt('namespace')) {    
         $helper->init(($options->getArgs())[0]);
     }
-    if ($options->getOpt('version')) {
+    else if ($options->getOpt('version')) {
         $info = $this->getInfo(); // method available in all DokuWiki plugins      
-      // $info['date'] = "2021-10-28";        
         $this->success($info['date']);
     } else {
         echo $options->help();

@@ -3,10 +3,14 @@ global $timezone, $current,$conf;
 define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;
 
 class helper_plugin_metadisplay_html extends DokuWiki_Plugin {
-function init($dir) {
+private $subdir = "";    
+function init($subdir="") {
     global $conf;
-    echo $dir ."\n"; exit;
     chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta');  
+    if($subdir) {
+         $this->subdir ="/$subdir";   
+         chdir($subdir);
+    }
     $timezone = 'UTC'; // default timezone is set to Coordinated Univeral Time. You can reset your timezone here
     date_default_timezone_set($timezone);
     ob_start();
@@ -26,8 +30,8 @@ function recurse($dir) {
         if ($file == '.' || $file == '..') continue;
         if (is_dir("$dir/$file")) $this->recurse("$dir/$file");
         if (preg_match("/\.meta$/", $file)) {            
-            $store_name = preg_replace('/^\./', $prefix, "$dir/$file");
-            $store_name = preg_replace('/^\./', "", "$dir/$file");
+               $store_name = preg_replace('/^\./', $this->subdir, "$dir/$file");
+               echo $store_name . "\n";
             $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';            
             if(!file_exists($id_name)) continue;            
             $this->get_data("$dir/$file","$id_name");
