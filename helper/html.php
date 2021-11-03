@@ -5,10 +5,12 @@ define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;
 
 class helper_plugin_metadisplay_html extends DokuWiki_Plugin {
 private $subdir = "";    
-function init($subdir="") {
+private $page;
+function init($subdir="", $page="") {
     global $conf;
     chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta');  
     if($subdir) {
+         $this->page=$page;     
          $this->subdir ="/$subdir";   
          chdir($subdir);
     }
@@ -31,12 +33,13 @@ function recurse($dir) {
         if ($file == '.' || $file == '..') continue;
         if (is_dir("$dir/$file")) $this->recurse("$dir/$file");
         if (preg_match("/\.meta$/", $file)) {            
+             if($this->page && !preg_match("/" . $this->page ."/",$file)) continue;
                $store_name = preg_replace('/^\./', $this->subdir, "$dir/$file");
                echo $store_name . "\n";
             $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';            
             if(!file_exists($id_name)) continue;            
             $this->get_data("$dir/$file","$id_name");
-            echo "\n";
+            echo "\n<br />";
         }
     }
 
@@ -57,7 +60,7 @@ function get_data($file,$id_path) {
     if (!isset($data_array['current'])) return;
     echo "\n" . '<table style="border-top:2px solid">' ."\n";
     echo "<tr><td colspan='2'>$id_path</td></tr>\n";
-    echo "<tr><td colspan='2'>$file</td></tr>\n";
+   // echo "<tr><td colspan='2'>$file</td></tr>\n";
     $current = $data_array['current'];
     $keys =  array('title','date','creator','last_change','relation');
     foreach ($keys AS $header) {
