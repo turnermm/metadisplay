@@ -18,7 +18,8 @@ chdir(DOKU_INC . 'bin');
 <?php
 if ( isset( $_POST['submit'] ) ) { 
 echo '<h3>Form POST Method</h3>'; 
-    $res=shell_exec('php ./plugin.php  metadisplay  -n ' . $_POST['namespace'] . ' -p ' . $_POST['namespace']  . ' -u  ' . $_POST['user'] );
+    $start_dir = $_POST['namespace'] ? $_POST['namespace'] : '.';
+    $res=shell_exec('php ./plugin.php  metadisplay  -n ' . $start_dir . ' -p ' . $_POST['page']  . ' -u  ' . $_POST['user'] );
 echo $res;
 }
 else if ( isset( $_POST['help'] ) ) { 

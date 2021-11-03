@@ -10,7 +10,7 @@ protected function setup(Options $options) {
      "[[--no-colors]  [--loglevel ]  -n  namespace [ -p page] -u user]"  
     );
     $options->registerOption('version', 'print version and exit', 'v');
-    $options->registerOption('namespace', 'metadata namespace; the -n option with no namespace defaults to the top level.', 'n');
+    $options->registerOption('namespace', 'metadata namespace; the -n option with no namespace or  dot [.] defaults to the top level.', 'n');
     $options->registerOption('user', 'user login name', 'u');
     $options->registerOption('page', 'page name without namespace or extension, e.g. start', 'p');
 }
@@ -20,7 +20,7 @@ protected function main(Options $options)
 {       
     $helper =  plugin_load('helper','metadisplay_html');   
     if ($options->getOpt('namespace')) {    
-       print_r($options->getArgs());
+    // print_r($options->getArgs());exit;
       $opts = $options->getArgs();
       if(!empty($opts[2])  &&  ($opts[1] == '-p' || $opts[1] == '--page') ){
            $page = $opts[2];

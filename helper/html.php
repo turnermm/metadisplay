@@ -9,8 +9,9 @@ private $page;
 function init($subdir="", $page="") {
     global $conf;
     chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta');  
+    if($subdir == '.') $subdir = "";
+    $this->page=str_replace(':', "",$page); 
     if($subdir) {
-         $this->page=$page;     
          $this->subdir ="/$subdir";   
          chdir($subdir);
     }
