@@ -10,7 +10,7 @@ protected function setup(Options $options) {
      "[[--no-colors]  [--loglevel ]  -n  namespace [ -p page] -u user]"  
     );
     $options->registerOption('version', 'print version and exit', 'v');
-    $options->registerOption('namespace', 'metadata namespace; the -n option with no namespace or  dot [.] defaults to the top level.', 'n');
+    $options->registerOption('namespace', 'metadata namespace; the -n option with no namespace or  dot [.] defaults to the top level. The dot is required if -n option is followed by a second option, e.g -p', 'n');
     $options->registerOption('user', 'user login name', 'u');
     $options->registerOption('page', 'page name without namespace or extension, e.g. start', 'p');
 }
