@@ -7,7 +7,7 @@ private $helper;
 protected function setup(Options $options) {
     
     $options->setHelp('Displays metadata for specified namespace or page' . "\n".
-     "[[--no-colors]  [--loglevel ]  -n  namespace [ -p page] -u user]"  
+     "[[--no-colors]  [--loglevel ]  -n  [--namespace] [ -p --page|.]  [[ -u --user] [ -pwd --password]]"  
     );
     $options->registerOption('version', 'print version and exit', 'v');
     $options->registerOption('namespace', 'metadata namespace; the -n option with no namespace or  dot [.] defaults to the top level. The dot is required if -n option is followed by a second option, e.g -p', 'n');
