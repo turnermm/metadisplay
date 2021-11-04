@@ -27,7 +27,7 @@ if ( isset( $_POST['submit'] ) ) {
         $cmdline .= " -u " . $_POST['user'];
     }     
      if(isset($_POST['pwd'])) {
-        $cmdline .= " -pwd " . $_POST['pwd'];
+        $cmdline .= " -l " . $_POST['pwd'];
     }    
   $res=shell_exec($cmdline);
 echo $res;
