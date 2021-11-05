@@ -11,6 +11,7 @@
  * All DokuWiki plugins to extend the admin function
  * need to inherit from this class
  */
+define ("METADISP_CMDL",  'php ' .DOKU_INC . '/bin/plugin.php metadisplay ');
 class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
 
     var $output ='';
@@ -19,17 +20,30 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
      * handle user request
      */
     function handle() {    
-      if (!isset($_REQUEST['cmd']) || empty($_REQUEST['help'])) return;   // first time - nothing to do
+
       if (!checkSecurityToken()) return;
-      if(!empty($_REQUEST['help'])) {
-            $this->output = '<pre>' . shell_exec(' php ' .DOKU_INC . '/bin/plugin.php metadisplay -h') .'</pre>';
+      if(!empty($_REQUEST['help'])) {            
+          //  $this->output = '<pre>' . shell_exec(' php ' .DOKU_INC . '/bin/plugin.php metadisplay -h') .'</pre>';
+          $this->output = '<pre>' . shell_exec(METADISP_CMDL  .'-h') .'</pre>';
             return;
       }
-           //   msg('<pre>' . print_r($_REQUEST,1). '</pre>');          
-      switch (key($_REQUEST['cmd'])) {
-       //    case 'page' : $this->output = 'goodbye'; break;
-          // case 'namespace' : $this->output = 'goodbye'; break;
-      }     
+
+   $commands =  $_REQUEST['cmd'];
+  // msg(print_r($commands,1));
+   $start_dir = $commands['namespace'] ? $commands['namespace'] : '.';  
+    $cmdline = METADISP_CMDL  .'-n ' . $start_dir;    
+    if(!empty($commands['page'])) {
+        $cmdline .= " -p " . $commands['page'];
+    }    
+    if(!empty($commands['user'])) {
+        $cmdline .= " -u " . $commands['user'];
+    }     
+     if(!empty($commands['pwd'])) {
+        $cmdline .= " -l " . $commands['pwd'];
+    }
+    
+    $this->output =shell_exec($cmdline);
+
     } 
 
     function html() {     
@@ -43,8 +57,8 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           
           ptln('<div><input type="text" name="cmd[namespace]" placeholder="namespace" />');
           ptln('<input type="text" name="cmd[page]" placeholder="page name" /></div>');
-          ptln('<div  style="line-height:2"><input type="text" name="user" placeholder="user" />');
-          ptln('<input type="password" name="pwd" placeholder="password"/></div>');
+          ptln('<div  style="line-height:2"><input type="text" name="cmd[user]" placeholder="user" />');
+          ptln('<input type="password" name="cmd[pwd]" placeholder="password"/></div>');
           ptln('<div style="line-height:2">');
           ptln('<input type="submit" name="submit"/>&nbsp;&nbsp;<input type="submit" value="help" name="help" /></div>');  
           
