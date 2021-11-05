@@ -30,7 +30,7 @@ if ( isset( $_POST['submit'] ) ) {
         $cmdline .= " -l " . $_POST['pwd'];
     }    
   $res=shell_exec($cmdline);
-echo $res;
+   echo $res;
 }
 else if ( isset( $_POST['help'] ) ) { 
    echo "<h3>Command Line Options</h3>";

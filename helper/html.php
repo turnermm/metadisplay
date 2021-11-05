@@ -33,14 +33,14 @@ function recurse($dir) {
     while (($file = readdir($dh)) !== false) {
         if ($file == '.' || $file == '..') continue;
         if (is_dir("$dir/$file")) $this->recurse("$dir/$file");
-        if (preg_match("/\.meta$/", $file)) {            
+        if (preg_match("/\.meta$/", $file)) {          
              if($this->page && !preg_match("/" . $this->page ."/",$file)) continue;
-               $store_name = preg_replace('/^\./', $this->subdir, "$dir/$file");
-               echo $store_name . "\n";
-            $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';            
-            if(!file_exists($id_name)) continue;            
-            $this->get_data("$dir/$file","$id_name");
-            echo "\n<br />";
+             $store_name = preg_replace('/^\./', $this->subdir, "$dir/$file");
+             echo $store_name . "\n";
+             $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';            
+             if(!file_exists($id_name)) continue;            
+             $this->get_data("$dir/$file","$id_name");
+             echo "\n<br />";
         }
     }
 

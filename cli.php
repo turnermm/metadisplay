@@ -19,7 +19,7 @@ protected function setup(Options $options) {
 // implement your code
 protected function main(Options $options)
 {       
-    $helper =  plugin_load('helper','metadisplay_html');   
+    $helper =  plugin_load('helper','metadisplay_html'); 
     if ($options->getOpt('namespace')) {    
     // print_r($options->getArgs());exit;
       $opts = $options->getArgs();
