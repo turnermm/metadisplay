@@ -37,8 +37,14 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     $start_dir = $commands['namespace'] ? $commands['namespace'] : '.';  
     $cmdline = METADISP_CMDL  .'-n ' . $start_dir;    
     if(!empty($commands['page'])) {
-        $cmdline .= " -p " . $commands['page'];
-    }    
+         $cmdline .= " -p " . $commands['page'];
+         if(!empty($commands['exact'])) {
+            $cmdline .= " -e " . $commands['exact'];
+        }  
+        else  $cmdline .= " -e " . 'off';     
+    }
+        
+    /*user, pwd not currently in use */    
     if(!empty($commands['user'])) {
         $cmdline .= " -u " . $commands['user'];
     }     
@@ -59,10 +65,15 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln('<input type="hidden" name="page" value="'.$this->getPluginName().'" />');
           formSecurityToken();
      
-          ptln('<div><input type="text" name="cmd[namespace]" placeholder="namespace" />');
-          ptln('<input type="text" name="cmd[page]" placeholder="page without extension" /></div>');
-       //   ptln('<div  style="line-height:2"><input type="text" name="cmd[user]" placeholder="user" />');
-       //   ptln('<input type="password" name="cmd[pwd]" placeholder="password"/></div>');
+          ptln('<div>Namespace: <input type="text" name="cmd[namespace]" placeholder="namespace:n2:n3. . ." />');
+          ptln('&nbsp; Page: <input type="text" name="cmd[page]" placeholder="page without extension" />');
+          ptln('&nbsp; Exact match on page name:&nbsp <input type = "checkbox" name="cmd[exact]" />');
+          ptln('</div>');
+          
+      /* // Not currently implemented
+         ptln('<div  style="line-height:2"><input type="text" name="cmd[user]" placeholder="user" />');
+         ptln('<input type="password" name="cmd[pwd]" placeholder="password"/></div>');
+      */   
           ptln('<div style="line-height:2">');
           ptln('<input type="submit" name="submit"/>&nbsp;&nbsp;<input type="submit" value="help" name="help" /></div>');  
           

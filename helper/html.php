@@ -6,8 +6,10 @@ define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;
 class helper_plugin_metadisplay_html extends DokuWiki_Plugin {
 private $subdir = "";    
 private $page;
-private $match = false;
-function init($subdir="", $page="") {
+private $match;
+private $exact_page_match = false;
+
+function init($subdir="", $page="",$exact="off") {
     global $conf;
     chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta');  
     if($subdir == '.') $subdir = "";
@@ -17,6 +19,7 @@ function init($subdir="", $page="") {
          $this->subdir ="/$subdir";   
          chdir($subdir);
     }
+    if($exact == 'on') $this->exact_page_match = true;
     $timezone = 'UTC'; // default timezone is set to Coordinated Univeral Time. You can reset your timezone here
     date_default_timezone_set($timezone);
     ob_start();
@@ -40,6 +43,9 @@ function recurse($dir) {
         if (is_dir("$dir/$file")) $this->recurse("$dir/$file");
         if (preg_match("/\.meta$/", $file)) {      
              if($this->page && !preg_match("/" . $this->page ."/",$file)) continue;
+             if($this->exact_page_match) {
+                 if(!preg_match("/^" . $this->page ."\.meta$/",$file)) continue;                 
+             }
              $this->$match = true;
              $store_name = preg_replace('/^\./', $this->subdir, "$dir/$file");           
              $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';            

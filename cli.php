@@ -12,8 +12,10 @@ protected function setup(Options $options) {
     $options->registerOption('version', 'print version and exit', 'v');
     $options->registerOption('namespace', 'metadata namespace; the -n option with no namespace or  dot [.] defaults to the top level. The dot is required if -n option is followed by a second option, e.g -p', 'n');
     $options->registerOption('page', 'page name without namespace or extension, e.g. start', 'p');
-    $options->registerOption('user', 'user name', 'u');
+    $options->registerOption('exact', 'exact <b><u>page</u></b> match', 'e');
+  /*  $options->registerOption('user', 'user name', 'u');
     $options->registerOption('login', 'user login password', 'l');
+    */
 }
 
 // implement your code
@@ -27,7 +29,8 @@ protected function main(Options $options)
            $page = $opts[2];
       }  
       else $page = "";
-     $helper->init(($options->getArgs())[0], $page);
+   //  echo print_r($opts,1);
+     $helper->init(($options->getArgs())[0], $page,$opts[4]);
     }
     else if ($options->getOpt('version')) {
         $info = $this->getInfo();    
