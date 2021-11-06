@@ -21,6 +21,10 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
      */
     function handle() {    
 
+      
+      if (!isset($_REQUEST['cmd']) && empty($_REQUEST['help'])) return;   // first time - nothing to do
+ 
+      $this->output = '';
       if (!checkSecurityToken()) return;
       if(!empty($_REQUEST['help'])) {            
           //  $this->output = '<pre>' . shell_exec(' php ' .DOKU_INC . '/bin/plugin.php metadisplay -h') .'</pre>';
