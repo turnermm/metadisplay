@@ -1,7 +1,6 @@
 <?php
 if(!defined('DOKU_INC')) die();
 global $timezone, $current,$conf;
-define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;
 
 class helper_plugin_metadisplay_html extends DokuWiki_Plugin {
 private $subdir = "";    
@@ -10,8 +9,15 @@ private $match;
 private $exact_page_match = false;
 
 function init($subdir="", $page="",$exact="off") {
-    global $conf;
-    chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta');  
+   global $conf;  
+  if($conf['savedir'] == './data') {
+      chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
+      define ('PAGES', DOKU_INC . '/'.trim( $conf['savedir'],"\/\\\.") . '/pages');  
+  }      
+   else {
+      chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta'); 
+      define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;    
+   }    
     if($subdir == '.') $subdir = "";
     $this->page=str_replace(':', "",$page); 
     if($subdir) {
@@ -44,11 +50,11 @@ function recurse($dir) {
         if (preg_match("/\.meta$/", $file)) {      
              if($this->page && !preg_match("/" . $this->page ."/",$file)) continue;
              if($this->exact_page_match) {
-                 if(!preg_match("/^" . $this->page ."\.meta$/",$file)) continue;                 
+                if(!preg_match("/^" . $this->page ."\.meta$/",$file)) continue;                 
              }
              $this->$match = true;
-             $store_name = preg_replace('/^\./', $this->subdir, "$dir/$file");           
-             $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';            
+             $store_name = preg_replace('/^\./', $this->subdir, "$dir/$file");         
+             $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';        
              if(!file_exists($id_name)) continue;            
              $this->get_data("$dir/$file","$id_name",$store_name);
              echo "\n<br />";
