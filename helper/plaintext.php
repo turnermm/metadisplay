@@ -76,7 +76,7 @@ function get_data($file,$id_path,$store_name="") {
     if ($data_array === false || !is_array($data_array)) return; 
     if (!isset($data_array['current'])) return;
     $this->match = true;
-    echo "\n$store_name";  
+    echo "\n----------------\n$store_name";  
     echo "\n$id_path\n";  
     $current = $data_array['current'];
     $keys =  array('title','date','creator','last_change','relation');
