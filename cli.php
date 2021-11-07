@@ -21,7 +21,7 @@ protected function setup(Options $options) {
 // implement your code
 protected function main(Options $options)
 {       
-    $helper =  plugin_load('helper','metadisplay_html'); 
+        $helper =  plugin_load('helper','metadisplay_plaintext'); 
     if ($options->getOpt('namespace')) {    
        $opts = $options->getArgs();
        $namespace=""; $page="";$exact="";$search="";
