@@ -8,7 +8,7 @@ protected function setup(Options $options) {
     
     $options->setHelp('Displays metadata for specified namespace or page' . "\n".
     "USAGE:\n" .   "php plugin.php metadisplay " .
-    "[--no-colors]  [--loglevel ] \n-n  [namespace|.] [[-p -page] [-e on|off]]"  
+    "[-h] [--no-colors]  [--loglevel ] \n [[-n namespace|.] [[-p -page] [-e on|off]]]"  
     );
     $options->registerOption('version', 'print version and exit', 'v');
     $options->registerOption('namespace', 'metadata namespace; the -n option with dot [.] defaults to the top level. The dot is required if -n option is followed by a namespace or the -p option', 'n');
