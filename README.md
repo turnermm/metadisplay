@@ -2,6 +2,7 @@
 
 USAGE:
  On Command Line from bin/ directory:
+ 
            php plugin.php metadisplay <OPTIONS>
 
    Displays metadata for specified namespace or page
