@@ -1,10 +1,11 @@
 # metadisplay
 
-USAGE: On Command Line:
+USAGE:
+ On Command Line from bin/ directory::
    php plugin.php metadisplay <OPTIONS>
 
    Displays metadata for specified namespace or page
-  Optrions
+   Options (in following order):
    [[--no-colors]  [--loglevel ]  -n  [--namespace] [ -p --page|.] [-e <off|on>]
 
 
@@ -25,7 +26,8 @@ OPTIONS:
 
    --loglevel <level>                Minimum level of messages to display. Default is info. Valid levels are:
                                      debug, info, notice, success, warning, error, critical, alert, emergency.
-  
+
+The plugin simplifies this from and admim.php panel accessed from the plugin's administration page
 
 
 
