@@ -100,7 +100,7 @@ function get_data($file,$id_path,$store_name="") {
             case 'last_change':                                           
                 $last_change = $this->getSimpleKeyValue($this->getcurrent($header, null),"last_change");
                  if($last_change) {
-                    echo "\nLast Change: $last_change\n"; 
+                    echo "[Last Change] \n$last_change\n"; 
                 }
                 break;              
             case 'contributor':       
@@ -146,7 +146,7 @@ function getSimpleKeyValue($ar,$which="") {
                 }
            }
 
-           $retv .= "\n>$key: $val\n";
+           $retv .= "$key: $val\n";
        }
     }
     return $retv;
@@ -177,7 +177,7 @@ function process_dates($created, $modified) {
 }
 
 function insertListInTable($list,$type) {
-    if($list) echo "$type: $list\n";
+    if($list) echo "$type $list\n";
 }
 function process_relation($isreferencedby,$references,$media,$firstimage,$haspart,$subject) {
   
@@ -187,14 +187,14 @@ function process_relation($isreferencedby,$references,$media,$firstimage,$haspar
     }
     if(!empty($references)) {           
        $list = $this->create_list(array_keys($references));
-       $this->insertListInTable($list,'Links');           
+       $this->insertListInTable($list,'[Links]');           
     }
     if(!empty($media)) {          
        $list = $this->create_list(array_keys($media));
-       $this->insertListInTable($list,'Media');           
+       $this->insertListInTable($list,'[Media]');           
     }
     if(!empty($firstimage)) {
-       echo "First Image: $firstimage\n";      
+       echo "First Image] \n$firstimage\n";      
     }   
     if(!empty($haspart)) {      
        $list = $this->create_list(array_keys($haspart)); 
@@ -208,7 +208,7 @@ function process_relation($isreferencedby,$references,$media,$firstimage,$haspar
 }
 
 function create_list($ar) {
-    $list = "\n>\n";
+    $list = "\n";
     for($i=0; $i<count($ar); $i++) {
         $list .= "$i) ". $ar[$i] . "\n";
     }
