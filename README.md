@@ -1,8 +1,8 @@
 # metadisplay
 
 USAGE:
- On Command Line from bin/ directory::
-   php plugin.php metadisplay <OPTIONS>
+ On Command Line from bin/ directory:
+           php plugin.php metadisplay <OPTIONS>
 
    Displays metadata for specified namespace or page
    Options (in following order):
