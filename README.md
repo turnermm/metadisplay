@@ -1,17 +1,21 @@
 # metadisplay
 
+Displays metadata for specified namespace or page
+
 USAGE:
  On Command Line from bin/ directory:
  
            php plugin.php metadisplay <OPTIONS>
 
-   Displays metadata for specified namespace or page
+  
    Options (in following order):
-   [[--no-colors]  [--loglevel ]  -n  [--namespace] [ -p --page|.] [-e <off|on>]
+   
+          [[--no-colors]  [--loglevel ]  -n  [--namespace] [ -p --page|.] [-e <off|on>]
 
 
-OPTIONS:
-   -v, --version                     print version and exit
+OPTIONS: 
+
+  ``` -v, --version                     print version and exit
 
    -n, --namespace                   metadata namespace; the -n option with no namespace or  dot [.] defaults
                                      to the top level. The dot is required if -n option is followed by a second option, e.g -p
@@ -27,8 +31,8 @@ OPTIONS:
 
    --loglevel <level>                Minimum level of messages to display. Default is info. Valid levels are:
                                      debug, info, notice, success, warning, error, critical, alert, emergency.
-
-The plugin simplifies this from and admim.php panel accessed from the plugin's administration page
+```
+The plugin simplifies this in an admin panel accessed from the wiki's administration page
 
 
 
