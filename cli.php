@@ -14,6 +14,7 @@ protected function setup(Options $options) {
     $options->registerOption('namespace', 'metadata namespace; the -n option with dot [.] defaults to the top level. The dot is required if -n option is followed by a namespace or the -p option', 'n');
     $options->registerOption('page', 'page name without namespace or extension, e.g. start', 'p');
     $options->registerOption('exact', 'set to "on"  for exact <b><u>page</u></b> match', 'e');
+  //  $options->registerOption('search', 'set to search tem', 's');
 
 }
 
@@ -22,14 +23,11 @@ protected function main(Options $options)
 {       
     $helper =  plugin_load('helper','metadisplay_html'); 
     if ($options->getOpt('namespace')) {    
-    // print_r($options->getArgs());exit;
-      $opts = $options->getArgs();
-      if(!empty($opts[2])  &&  ($opts[1] == '-p' || $opts[1] == '--page') ){
-           $page = $opts[2];
-      }  
-      else $page = "";
-   //  echo print_r($opts,1);
-     $helper->init(($options->getArgs())[0], $page,$opts[4]);
+       $opts = $options->getArgs();
+       $namespace=""; $page="";$exact="";$search="";
+       $this->get_commandLineOptions($namespace,$page,$exact,$search,$opts);
+        // echo "$namespace, $page,$exact,$search\n";
+         $helper->init($namespace, $page,$exact,$search);
     }
     else if ($options->getOpt('version')) {
         $info = $this->getInfo();    
@@ -38,5 +36,27 @@ protected function main(Options $options)
         echo $options->help();
     }
 }
+function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,$opts) {
+    if(!is_countable($opts)) return;
+    $namespace = array_shift($opts);
+     for($i=0; $i<count($opts); $i++) {
+          $cl_switch = trim($opts[$i],'-');
+          switch ($cl_switch) {
+            case 'p':
+            case 'page':    
+                $page =  $opts[$i+1];         
+                break;
+            case 'e':
+            case 'exact':
+                $exact =  $opts[$i+1];            
+                break;
+            case 's':
+            case 'search': 
+               $search =   $opts[$i+1];  
+                break;
+        }
+      }
+}
+
 }
 

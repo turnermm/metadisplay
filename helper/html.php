@@ -8,7 +8,7 @@ private $page;
 private $match;
 private $exact_page_match = false;
 
-function init($subdir="", $page="",$exact="off") {
+function init($subdir="", $page="",$exact="off", $search="") {
    global $conf;  
   if($conf['savedir'] == './data') {
       chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
