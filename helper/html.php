@@ -79,7 +79,7 @@ function get_data($file,$id_path,$store_name="") {
     $this->match = true;
     echo $store_name ."\n";
     echo "\n" . '<table style="border-top:2px solid">' ."\n";
-    echo "<tr><td colspan='2'>$id_path</td></tr>\n";  
+    echo "<tr><th colspan='2'>$id_path</th></tr>\n";  
     $current = $data_array['current'];
     $keys =  array('title','date','creator','last_change','relation');
     foreach ($keys AS $header) {
@@ -103,7 +103,7 @@ function get_data($file,$id_path,$store_name="") {
             case 'last_change':                                           
                 $last_change = $this->getSimpleKeyValue($this->getcurrent($header, null),"last_change");
                  if($last_change) {
-                    echo "<tr><td colspan='2'>Last Change</td>\n"; 
+                    echo "<tr><th colspan='2'>Last Change</th>\n"; 
                     echo "<td>$last_change</td></tr>\n"; 
                 }
                 break;              
@@ -184,7 +184,7 @@ function insertListInTable($list,$type) {
     if($list) echo "<tr><td>$type</td><td>$list</td></tr>\n";
 }
 function process_relation($isreferencedby,$references,$media,$firstimage,$haspart,$subject) {
-  
+     echo "<tr><th colspan='2'>Relation</th></tr>\n";
     if(!empty($isreferencedby)) {         
         $list = $this->create_list(array_keys($isreferencedby));
         $this->insertListInTable($list,'Backlinks');
