@@ -66,7 +66,17 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
      
           ptln('<div>Namespace: <input type="text" name="cmd[namespace]" placeholder="namespace:n2:n3. . ." />');
           ptln('&nbsp; Page: <input type="text" name="cmd[page]" placeholder="page without extension" />');
-          ptln('&nbsp; Exact match on page name:&nbsp <input type = "checkbox" name="cmd[exact]" />');
+          ptln('&nbsp; ' .$this->getLang('exact').':&nbsp <input type = "checkbox" name="cmd[exact]" />');
+          ptln('<br />');
+          ptln($this->getLang('date') . ':&nbsp;&nbsp;'); 
+          ptln('<input type="text" size = "6" name="cmd[year]" placeholder="Year" />');
+          ptln('<input type="text" size = "12" name="cmd[month]" placeholder="Month (1-12)" />');
+          ptln('<input type="text" size = "12" name="cmd[day]" placeholder="Day (1-31)" />');
+          ptln('<br />' . $this->getLang('when') );/*Only display files created*/
+          ptln( '<input type="checkbox" name="cmd[pcreated]">');
+          ptln($this->getLang('andor') . ' <input type="checkbox" name="pmodified"');
+          ptln ('<ol><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
+          ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ol>');
           ptln('</div>');
           
       /* // Not currently implemented
