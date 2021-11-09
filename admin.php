@@ -32,7 +32,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
       }
 
    $commands =  $_REQUEST['cmd'];
-  // msg(print_r($commands,1));
+ //  msg('<pre>'.print_r($_REQUEST,1).'</pre>');
     $start_dir = $commands['namespace'] ? $commands['namespace'] : '.';  
     $cmdline = METADISP_CMDL  .'-n ' . $start_dir;    
     if(!empty($commands['page'])) {
@@ -42,7 +42,11 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
         }  
         else  $cmdline .= " -e " . 'off';     
     }
-        
+     if(!empty($commands['pcreated']) || !empty($commands['pmodified']) ) {
+     //($hour=12, $min=60, $second=60,$month=1,$day=1,$year=1950) 
+         $timestamp = $this->get_timestamp($hour, $min, $second,$month,$day,$year);
+         $cmdline .= " -t   $timestamp";  
+    }
     /*user, pwd not currently in use */    
     if(!empty($commands['user'])) {
         $cmdline .= " -u " . $commands['user'];
@@ -50,7 +54,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
      if(!empty($commands['pwd'])) {
         $cmdline .= " -l " . $commands['pwd'];
     }
-    
+    //msg($cmdline);
     $this->output =shell_exec($cmdline);
 
     } 
@@ -74,7 +78,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln('<input type="text" size = "12" name="cmd[day]" placeholder="Day (1-31)" />');
           ptln('<br />' . $this->getLang('when') );/*Only display files created*/
           ptln( '<input type="checkbox" name="cmd[pcreated]">');
-          ptln($this->getLang('andor') . ' <input type="checkbox" name="pmodified"');
+          ptln($this->getLang('andor') . ' <input type="checkbox" name="cmd[pmodified]"');
           ptln ('<ol><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
           ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ol>');
           ptln('</div>');
@@ -91,4 +95,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
       ptln('<div><br />'.$this->output.'</div>');    
     }
  
+ function get_timestamp($hour=12, $min=60, $second=60,$month=1,$day=1,$year=1950) {
+    return  mktime($hour, $min, $second,$month,$day,$year);
+}
 }

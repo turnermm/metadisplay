@@ -8,7 +8,7 @@ private $page;
 private $match;
 private $exact_page_match = false;
 
-function init($subdir="", $page="",$exact="off", $search="") {
+function init($subdir="", $page="",$exact="off", $search="", $tm="", $when="") {
    global $conf;  
   if($conf['savedir'] == './data') {
       chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
@@ -234,4 +234,5 @@ function getcurrent($which, $other) {
 }
 function get_timestamp($hour=12, $min=60, $second=60,$month=1,$day=1,$year=1950) {
     return  mktime($hour, $min, $second,$month,$day,$year);
+}
 }

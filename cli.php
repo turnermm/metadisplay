@@ -15,6 +15,8 @@ protected function setup(Options $options) {
     $options->registerOption('page', 'page name without namespace or extension, e.g. start', 'p');
     $options->registerOption('exact', 'set to "on"  for exact <b><u>page</u></b> match', 'e');
 $options->registerOption('cmdL', 'set to "on" when accessing from command line in DOKU_INC/bin', 'c');
+$options->registerOption('timestamp', 'display metadata before or after this time ', 't');
+$options->registerOption('when', '<b>b</b> before, <b>a</b> after the timestamp ', 'w');
   //  $options->registerOption('search', 'set to search tem', 's');
 
 }
@@ -25,8 +27,8 @@ protected function main(Options $options)
   
     if ($options->getOpt('namespace')) {    
        $opts = $options->getArgs();
-        $namespace=""; $page="";$exact="";$search="";$cl = "";
-        $this->get_commandLineOptions($namespace,$page,$exact,$search,$cl, $opts);
+        $namespace=""; $page="";$exact="";$search="";$cl = ""; $tm = ""; $when = "";
+        $this->get_commandLineOptions($namespace,$page,$exact,$search,$cl, $tm, $when,$opts);
    
            if($cl == 'on') {
                $helper =  plugin_load('helper','metadisplay_plaintext');
@@ -34,7 +36,7 @@ protected function main(Options $options)
            else {
                $helper =  plugin_load('helper','metadisplay_html'); 
            }
-         $helper->init($namespace, $page,$exact,$search);
+            $helper->init($namespace, $page,$exact,$search, $tm, $when);
             
     }
     else if ($options->getOpt('version')) {
@@ -67,6 +69,14 @@ function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl, $opts
           $cl = $opts[$i+1];
           break;
         }
+        case 't':
+        case 'timestamp':
+          $tm = $opts[$i+1];
+          break;
+        case 'w':  
+        case 'when':
+          $when = $opts[$i+1];
+          break;   
         }
       }
 
