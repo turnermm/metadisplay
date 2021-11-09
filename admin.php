@@ -45,7 +45,9 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
      if(!empty($commands['pcreated']) || !empty($commands['pmodified']) ) {
      //($hour=12, $min=60, $second=60,$month=1,$day=1,$year=1950) 
          $timestamp = $this->get_timestamp($hour, $min, $second,$month,$day,$year);
-         $cmdline .= " -t   $timestamp";  
+         $w = $_REQUEST['when'] == 'earlier' ? ' -b  ': ' -a ';       
+          $cmdline .= $w . "$timestamp:" .($commands['pcreated']?'created':'modified');         
+         
     }
     /*user, pwd not currently in use */    
     if(!empty($commands['user'])) {

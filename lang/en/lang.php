@@ -11,7 +11,7 @@
 $lang['menu'] = 'metadisplay'; 
 $lang['exact']  = 'Exact match on page name';
 $lang['earlier'] = ' earlier';
-$lang['later'] = '  later than the above date';
+$lang['later'] = '  later than the optional date';
 $lang['when'] = 'Only display files created '; 
 $lang['date'] =  'Optional date:';
 $lang['andor'] = 'and/or modified';

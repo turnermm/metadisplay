@@ -8,16 +8,16 @@ protected function setup(Options $options) {
     
     $options->setHelp('Displays metadata for specified namespace or page' . "\n".
     "USAGE:\n" .   "php plugin.php metadisplay " .
-"[-h] [--no-colors]  [--loglevel ] \n [[-n --namespace|.] [[-p -page] [-e --exact ]][-c --cmdL]]"  
+"[-h] [--no-colors]  [--loglevel ] \n [[-n --namespace|.] [[-p -page] [-e --exact ]][-c --cmdL]][[-b --before|-a --after]: timestamp[modified|created]] "  
     );
     $options->registerOption('version', 'print version and exit', 'v');
-    $options->registerOption('namespace', 'metadata namespace; the -n option with dot [.] defaults to the top level. The dot is required if -n option is followed by a namespace or the -p option', 'n');
+    $options->registerOption('namespace', 'metadata namespace; the -n option with dot [.] defaults to the top level. This option cannot be left blank if it is not followed by a page name');
     $options->registerOption('page', 'page name without namespace or extension, e.g. start', 'p');
     $options->registerOption('exact', 'set to "on"  for exact <b><u>page</u></b> match', 'e');
 $options->registerOption('cmdL', 'set to "on" when accessing from command line in DOKU_INC/bin', 'c');
-$options->registerOption('timestamp', 'display metadata before or after this time ', 't');
-$options->registerOption('when', '<b>b</b> before, <b>a</b> after the timestamp ', 'w');
-  //  $options->registerOption('search', 'set to search tem', 's');
+   $options->registerOption('before',  'before timestamp:[modified|created]', 'b');
+    $options->registerOption('after', 'after timestamp:[modified|created]', 'a');
+   // $options->registerOption('search', 'set to search term', 's');
 
 }
 
@@ -68,13 +68,17 @@ function get_commandLineOptions(&$namespace, &$page,&$cl,&$exact,$tm, $opts) {
         case 'cmdL':
           $cl = $opts[$i+1];
           break;
-        case 't':
-        case 'timestamp':
+        case 'b':  
+        case 'before':
           $tm = $opts[$i+1];
           break;
-        case 'w':  
-        case 'when':
-          $when = $opts[$i+1];
+        case 'a':  
+        case 'after':
+            $tm = $opts[$i+1];
+            break;       
+        case 'm':  
+        case 'modified':
+            $which = $opts[$i+1];
           break;   
         }
       }
