@@ -28,7 +28,7 @@ protected function main(Options $options)
     if ($options->getOpt('namespace')) {    
        $opts = $options->getArgs();
         $namespace=""; $page="";$exact="";$search="";$cl = ""; $tm = ""; $when = "";
-        $this->get_commandLineOptions($namespace,$page,$exact,$search,$cl, $tm, $when,$opts);
+        $this->get_commandLineOptions($namespace,$page,$cl ,$exact,$tm = "",$opts);
    
            if($cl == 'on') {
                $helper =  plugin_load('helper','metadisplay_plaintext');
@@ -46,7 +46,7 @@ protected function main(Options $options)
         echo $options->help();
     }
 }
-function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl, $opts) {
+function get_commandLineOptions(&$namespace, &$page,&$cl,&$exact,$tm, $opts) {
     if(function_exists(is_countable($opts)) &&!is_countable($opts)) return;
     $namespace = array_shift($opts);
     for($i=0; $i<count($opts); $i++) {
@@ -68,7 +68,6 @@ function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl, $opts
         case 'cmdL':
           $cl = $opts[$i+1];
           break;
-        }
         case 't':
         case 'timestamp':
           $tm = $opts[$i+1];
@@ -79,7 +78,7 @@ function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl, $opts
           break;   
         }
       }
-
+}
 }  //end class definition
 
 
