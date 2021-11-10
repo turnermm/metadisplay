@@ -11,7 +11,8 @@ protected function setup(Options $options) {
 "[-h] [--no-colors]  [--loglevel ] \n [[-n --namespace|.] [[-p -page] [-e --exact ]][-c --cmdL]][[-b --before|-a --after]: timestamp[modified|created]] "  
     );
     $options->registerOption('version', 'print version and exit', 'v');
-    $options->registerOption('namespace', 'metadata namespace; the -n option with dot [.] defaults to the top level. This option cannot be left blank if it is not followed by a page name');
+    $options->registerOption('namespace',
+	'metadata namespace; the -n option with dot [.]	defaults to the top level. This option cannot be left blank if it is not followed by a page name','n');
     $options->registerOption('page', 'page name without namespace or extension, e.g. start', 'p');
     $options->registerOption('exact', 'set to "on"  for exact <b><u>page</u></b> match', 'e');
 $options->registerOption('cmdL', 'set to "on" when accessing from command line in DOKU_INC/bin', 'c');
