@@ -32,7 +32,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
       }
 
    $commands =  $_REQUEST['cmd'];
- //  msg('<pre>'.print_r($_REQUEST,1).'</pre>');
+   msg('<pre>'.print_r($_REQUEST,1).'</pre>');
     $start_dir = $commands['namespace'] ? $commands['namespace'] : '.';  
     $cmdline = METADISP_CMDL  .'-n ' . $start_dir;    
     if(!empty($commands['page'])) {
@@ -44,19 +44,15 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     }
      if(!empty($commands['pcreated']) || !empty($commands['pmodified']) ) {
      //($hour=12, $min=60, $second=60,$month=1,$day=1,$year=1950) 
-         $timestamp = $this->get_timestamp($hour, $min, $second,$month,$day,$year);
+       ///  $timestamp = $this->get_timestamp($hour, $min, $second,$month,$day,$year);
+	     $timestamp = $commands['year'] .'-'. $commands['month'] .'-'. $commands['day'];
          $w = $_REQUEST['when'] == 'earlier' ? ' -b  ': ' -a ';       
-          $cmdline .= $w . "$timestamp:" .($commands['pcreated']?'created':'modified');         
+          $cmdline .= $w . "$timestamp";// .($commands['pcreated']?'created':'modified');         
          
     }
     /*user, pwd not currently in use */    
-    if(!empty($commands['user'])) {
-        $cmdline .= " -u " . $commands['user'];
-    }     
-     if(!empty($commands['pwd'])) {
-        $cmdline .= " -l " . $commands['pwd'];
-    }
-    //msg($cmdline);
+
+    msg($cmdline);
     $this->output =shell_exec($cmdline);
 
     } 
@@ -97,7 +93,4 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
       ptln('<div><br />'.$this->output.'</div>');    
     }
  
- function get_timestamp($hour=12, $min=60, $second=60,$month=1,$day=1,$year=1950) {
-    return  mktime($hour, $min, $second,$month,$day,$year);
-}
 }

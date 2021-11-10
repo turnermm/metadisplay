@@ -10,6 +10,8 @@ private $exact_page_match = false;
 
 function init($subdir="", $page="",$exact="off", $search="", $tm="", $when="") {
    global $conf;  
+    $dfile = $metafile = metaFN("dbg:debug",'.dbg');
+    io_saveFile($dfile , "FN TOP: $subdir, $page,$exact, $tm, $when\n",true);
   if($conf['savedir'] == './data') {
       chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
       define ('PAGES', DOKU_INC . '/'.trim( $conf['savedir'],"\/\\\.") . '/pages');  
@@ -27,6 +29,9 @@ function init($subdir="", $page="",$exact="off", $search="", $tm="", $when="") {
     }
     if($exact == 'on') $this->exact_page_match = true;
     $timezone = 'UTC'; // default timezone is set to Coordinated Univeral Time. You can reset your timezone here
+	
+	 io_saveFile($dfile , "FN MID:$subdir, $page,$exact, $tm, $when\n",true);
+	
     date_default_timezone_set($timezone);
     ob_start();
     $this->recurse('.');

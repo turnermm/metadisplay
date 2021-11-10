@@ -18,7 +18,7 @@ protected function setup(Options $options) {
 $options->registerOption('cmdL', 'set to "on" when accessing from command line in DOKU_INC/bin', 'c');
    $options->registerOption('before',  'before timestamp:[modified|created]', 'b');
     $options->registerOption('after', 'after timestamp:[modified|created]', 'a');
-   // $options->registerOption('search', 'set to search term', 's');
+    $options->registerOption('search', 'set to search term', 's');
 
 }
 
@@ -28,9 +28,14 @@ protected function main(Options $options)
   
     if ($options->getOpt('namespace')) {    
        $opts = $options->getArgs();
-        $namespace=""; $page="";$exact="";$search="";$cl = ""; $tm = ""; $when = "";
-        $this->get_commandLineOptions($namespace,$page,$cl ,$exact,$tm = "",$opts);
+	    $dfile = $metafile = metaFN("dbg:debug",'.dbg');
+	    io_saveFile($dfile , "CLI.PHP MAIN 1: " . print_r($opts,1) . "n\n",true);
+        $namespace; $page;$exact;$search;$cl;$tm; $when;
+		//&$namespace, &$page,&$exact,&$search,&$cl,&$tm, $opts
+        $this->get_commandLineOptions($namespace, $page,$exact,$search,$cl,$tm,$opts);
    
+        io_saveFile($dfile , "CLI.PHP MAIN 1: " . print_r($opts,1) . " ,$when\n\n",true);
+		io_saveFile($dfile , "CLI.PHP MAIN 2: $subdir, $page,$exact, $tm, $when\n\n",true);
            if($cl == 'on') {
                $helper =  plugin_load('helper','metadisplay_plaintext');
            }           
@@ -47,7 +52,9 @@ protected function main(Options $options)
         echo $options->help();
     }
 }
-function get_commandLineOptions(&$namespace, &$page,&$cl,&$exact,$tm, $opts) {
+
+                              //  &$namespace, &$page,&$exact,&$search,&$cl,&$tm, $opts
+function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl,&$tm, $opts) {
     if(function_exists(is_countable($opts)) &&!is_countable($opts)) return;
     $namespace = array_shift($opts);
     for($i=0; $i<count($opts); $i++) {
@@ -71,11 +78,14 @@ function get_commandLineOptions(&$namespace, &$page,&$cl,&$exact,$tm, $opts) {
           break;
         case 'b':  
         case 'before':
-          $tm = $opts[$i+1];
+		
+            $tm = $this->get_timestamp( $opts[$i+1]);// . ':b';
+		    $dfile = $metafile = metaFN("dbg:debug",'.dbg');
+            io_saveFile($dfile , "before: $tm\n",true);
           break;
         case 'a':  
         case 'after':
-            $tm = $opts[$i+1];
+            $tm = $this->get_timestamp( $opts[$i+1]);// . ':a';
             break;       
         case 'm':  
         case 'modified':
@@ -84,6 +94,14 @@ function get_commandLineOptions(&$namespace, &$page,&$cl,&$exact,$tm, $opts) {
         }
       }
 }
+
+function get_timestamp($date_str){
+	
+    list($year,$month,$day) = explode('-',$date_str);
+    $hour = '0'; $min = '01'; $second = '0';
+    return  mktime($hour, $min, $second,$month,$day,$year);
+}
+
 }  //end class definition
 
 
