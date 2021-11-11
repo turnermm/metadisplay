@@ -18,8 +18,8 @@ protected function setup(Options $options) {
 $options->registerOption('cmdL', 'set to "on" when accessing from command line in DOKU_INC/bin', 'c');
    $options->registerOption('before',  'before timestamp:[modified|created]', 'b');
     $options->registerOption('after', 'after timestamp:[modified|created]', 'a');
+    $options->registerOption('dtype', '"created" or "modified" date for "--before" and "--after"', 'd');	  
     $options->registerOption('search', 'set to search term', 's');
-
 }
 
 // implement your code
@@ -28,14 +28,10 @@ protected function main(Options $options)
   
     if ($options->getOpt('namespace')) {    
        $opts = $options->getArgs();
-	    $dfile = $metafile = metaFN("dbg:debug",'.dbg');
-	    io_saveFile($dfile , "CLI.PHP MAIN 1: " . print_r($opts,1) . "n\n",true);
+	    $this->write_debug(print_r($opts,1) );
         $namespace; $page;$exact;$search;$cl;$tm; $when;
-		//&$namespace, &$page,&$exact,&$search,&$cl,&$tm, $opts
         $this->get_commandLineOptions($namespace, $page,$exact,$search,$cl,$tm,$opts);
-   
-        io_saveFile($dfile , "CLI.PHP MAIN 1: " . print_r($opts,1) . " ,$when\n\n",true);
-		io_saveFile($dfile , "CLI.PHP MAIN 2: $subdir, $page,$exact, $tm, $when\n\n",true);
+        $this->write_debug("$subdir, $page,$exact, $tm, $when");		
            if($cl == 'on') {
                $helper =  plugin_load('helper','metadisplay_plaintext');
            }           
@@ -78,18 +74,18 @@ function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl,&$tm, 
           break;
         case 'b':  
         case 'before':
+            $tm = $this->get_timestamp( $opts[$i+1]) . ':b';
+	        $this->write_debug($tm);
 		
-            $tm = $this->get_timestamp( $opts[$i+1]);// . ':b';
-		    $dfile = $metafile = metaFN("dbg:debug",'.dbg');
-            io_saveFile($dfile , "before: $tm\n",true);
           break;
         case 'a':  
         case 'after':
-            $tm = $this->get_timestamp( $opts[$i+1]);// . ':a';
+            $tm = $this->get_timestamp( $opts[$i+1]) . ':a';
             break;       
-        case 'm':  
-        case 'modified':
+        case 'd':  
+        case 'dtype':
             $which = $opts[$i+1];
+		    $this->write_debug("modified: $which");
           break;   
         }
       }
@@ -101,7 +97,11 @@ function get_timestamp($date_str){
     $hour = '0'; $min = '01'; $second = '0';
     return  mktime($hour, $min, $second,$month,$day,$year);
 }
-
+function write_debug($msg) {	
+	$dfile = $metafile = metaFN("dbg:debug",'.dbg');
+	$date_time = date('Y-m-d h:i:s');
+	io_saveFile($dfile , "$date_time\n$msg\n\n",true);
+}	
 }  //end class definition
 
 

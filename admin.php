@@ -23,7 +23,6 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
 
       
       if (!isset($_REQUEST['cmd']) && empty($_REQUEST['help'])) return;   // first time - nothing to do
- 
       $this->output = '';
       if (!checkSecurityToken()) return;
       if(!empty($_REQUEST['help'])) {            
@@ -43,14 +42,12 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
         else  $cmdline .= " -e " . 'off';     
     }
      if(!empty($commands['pcreated']) || !empty($commands['pmodified']) ) {
-     //($hour=12, $min=60, $second=60,$month=1,$day=1,$year=1950) 
-       ///  $timestamp = $this->get_timestamp($hour, $min, $second,$month,$day,$year);
 	     $timestamp = $commands['year'] .'-'. $commands['month'] .'-'. $commands['day'];
          $w = $_REQUEST['when'] == 'earlier' ? ' -b  ': ' -a ';       
           $cmdline .= $w . "$timestamp";// .($commands['pcreated']?'created':'modified');         
-         
+		  $dtm = $commands['pcreated']?'created':'modified';
+		  $cmdline .= " -dtype $dtm"; 
     }
-    /*user, pwd not currently in use */    
 
     msg($cmdline);
     $this->output =shell_exec($cmdline);
