@@ -7,10 +7,12 @@ private $subdir = "";
 private $page;
 private $match;
 private $exact_page_match = false;
+private $timestamp;
+private $t_when;
+private $dtype;
+function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="") {
+  global $conf;  
 
-function init($subdir="", $page="",$exact="off", $search="", $tm="", $when="") {
-   global $conf;  
-    $dfile = $metafile = metaFN("dbg:debug",'.dbg');
   if($conf['savedir'] == './data') {
       chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
       define ('PAGES', DOKU_INC . '/'.trim( $conf['savedir'],"\/\\\.") . '/pages');  
@@ -19,6 +21,12 @@ function init($subdir="", $page="",$exact="off", $search="", $tm="", $when="") {
       chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta'); 
       define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;    
    }    
+   if(method_exists('cli_plugin_metadisplay','write_debug')) {
+	   //$exact,$search, $tm, $dtype
+	   $tzone = date_default_timezone_get() ;
+	$dbg = "Namespace: $subdir,page: $page, time: $tm, dtype: $dtype, exact: $exact, \ntzone: $tzone";  
+    cli_plugin_metadisplay::write_debug("\n\n".'In html.php' ."\n" . $dbg);
+}
     if($subdir == '.') $subdir = "";
     $this->page=str_replace(':', "",$page); 
     if($subdir) {
@@ -27,11 +35,11 @@ function init($subdir="", $page="",$exact="off", $search="", $tm="", $when="") {
          chdir($subdir);
     }
     if($exact == 'on') $this->exact_page_match = true;
-    $timezone = 'UTC'; // default timezone is set to Coordinated Univeral Time. You can reset your timezone here
-	
-	// io_saveFile($dfile , "FN MID:$subdir, $page,$exact, $tm, $when\n",true);
-	
-    date_default_timezone_set($timezone);
+	if($tm) {
+	 list($this->timestamp,$this->t_when) = explode(':',$tm);
+	 $this->dtype = $dtype;
+	 cli_plugin_metadisplay::write_debug($this->timestamp . " " .$this->t_when . " " .$dtype);
+	}
     ob_start();
     $this->recurse('.');
     if(!$this->match){
@@ -81,10 +89,23 @@ function get_data($file,$id_path,$store_name="") {
     if ($data_array === false || !is_array($data_array)) return; 
     if (!isset($data_array['current'])) return;
     $this->match = true;
+
+    $current = $data_array['current'];
+	cli_plugin_metadisplay::write_debug('created: ' . $this->getcurrent('date', 'created') .
+	' -- modified: ' . $this->getcurrent('date', 'modified'));
+	if($this->t_when) {
+		$tmstmp = $this->getcurrent('date', $this->dtype);
+		cli_plugin_metadisplay::write_debug('tmstmp: ' . $tmstmp . "type: " . $this->dtype . " when " . $this->t_when);
+		if($this->t_when == 'b' && $tmstmp > $this->timestamp) {
+			return;
+		}
+		else if($this->t_when == 'a' && $tmstmp < $this->timestamp) {
+			return;
+		}
+	}
     echo $store_name ."\n";
     echo "\n" . '<table style="border-top:2px solid">' ."\n";
-    echo "<tr><th colspan='2'>$id_path</th></tr>\n";  
-    $current = $data_array['current'];
+    echo "<tr><th colspan='2'>$id_path</th></tr>\n";	
     $keys =  array('title','date','creator','last_change','relation');
     foreach ($keys AS $header) {
         switch($header) {

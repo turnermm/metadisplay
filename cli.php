@@ -28,17 +28,17 @@ protected function main(Options $options)
   
     if ($options->getOpt('namespace')) {    
        $opts = $options->getArgs();
-	    $this->write_debug(print_r($opts,1) );
-        $namespace; $page;$exact;$search;$cl;$tm; $when;
-        $this->get_commandLineOptions($namespace, $page,$exact,$search,$cl,$tm,$opts);
-        $this->write_debug("$subdir, $page,$exact, $tm, $when");		
+	    //$this->write_debug(print_r($opts,1) );
+        $namespace; $page;$exact;$search;$cl;$tm;$dtype;		
+        $this->get_commandLineOptions($namespace, $page,$exact,$search,$cl,$tm,$dtype,$opts);  
+       // $this->write_debug("namespace $namespace, page $page,\n exact $exact, time $tm, dtype: $dtype");		
            if($cl == 'on') {
                $helper =  plugin_load('helper','metadisplay_plaintext');
            }           
            else {
                $helper =  plugin_load('helper','metadisplay_html'); 
            }
-            $helper->init($namespace, $page,$exact,$search, $tm, $when);
+            $helper->init($namespace, $page,$exact,$search, $tm, $dtype);
             
     }
     else if ($options->getOpt('version')) {
@@ -50,7 +50,7 @@ protected function main(Options $options)
 }
 
                               //  &$namespace, &$page,&$exact,&$search,&$cl,&$tm, $opts
-function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl,&$tm, $opts) {
+function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl,&$tm,&$dtype,$opts) {
     if(function_exists(is_countable($opts)) &&!is_countable($opts)) return;
     $namespace = array_shift($opts);
     for($i=0; $i<count($opts); $i++) {
@@ -75,7 +75,7 @@ function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl,&$tm, 
         case 'b':  
         case 'before':
             $tm = $this->get_timestamp( $opts[$i+1]) . ':b';
-	        $this->write_debug($tm);
+	        //$this->write_debug($tm);
 		
           break;
         case 'a':  
@@ -84,8 +84,8 @@ function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl,&$tm, 
             break;       
         case 'd':  
         case 'dtype':
-            $which = $opts[$i+1];
-		    $this->write_debug("modified: $which");
+            $dtype = $opts[$i+1];
+		   // $this->write_debug("modified: $dtype");
           break;   
         }
       }
@@ -97,7 +97,8 @@ function get_timestamp($date_str){
     $hour = '0'; $min = '01'; $second = '0';
     return  mktime($hour, $min, $second,$month,$day,$year);
 }
-function write_debug($msg) {	
+function public write_debug($msg) {	
+return;
 	$dfile = $metafile = metaFN("dbg:debug",'.dbg');
 	$date_time = date('Y-m-d h:i:s');
 	io_saveFile($dfile , "$date_time\n$msg\n\n",true);

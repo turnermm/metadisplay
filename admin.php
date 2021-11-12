@@ -31,7 +31,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
       }
 
    $commands =  $_REQUEST['cmd'];
-   msg('<pre>'.print_r($_REQUEST,1).'</pre>');
+   //msg('<pre>'.print_r($_REQUEST,1).'</pre>');
     $start_dir = $commands['namespace'] ? $commands['namespace'] : '.';  
     $cmdline = METADISP_CMDL  .'-n ' . $start_dir;    
     if(!empty($commands['page'])) {
@@ -43,10 +43,11 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     }
      if(!empty($commands['pcreated']) || !empty($commands['pmodified']) ) {
 	     $timestamp = $commands['year'] .'-'. $commands['month'] .'-'. $commands['day'];
+		 // msg($timestamp,1);
          $w = $_REQUEST['when'] == 'earlier' ? ' -b  ': ' -a ';       
           $cmdline .= $w . "$timestamp";// .($commands['pcreated']?'created':'modified');         
 		  $dtm = $commands['pcreated']?'created':'modified';
-		  $cmdline .= " -dtype $dtm"; 
+		  $cmdline .= " --dtype $dtm"; 
     }
 
     msg($cmdline);
@@ -78,10 +79,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ol>');
           ptln('</div>');
           
-      /* // Not currently implemented
-         ptln('<div  style="line-height:2"><input type="text" name="cmd[user]" placeholder="user" />');
-         ptln('<input type="password" name="cmd[pwd]" placeholder="password"/></div>');
-      */   
+ 
           ptln('<div style="line-height:2">');
           ptln('<input type="submit" name="submit"/>&nbsp;&nbsp;<input type="submit" value="help" name="help" /></div>');  
           
