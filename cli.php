@@ -97,7 +97,7 @@ function get_timestamp($date_str){
     $hour = '0'; $min = '01'; $second = '0';
     return  mktime($hour, $min, $second,$month,$day,$year);
 }
-function public write_debug($msg) {	
+public function write_debug($msg) {	
 return;
 	$dfile = $metafile = metaFN("dbg:debug",'.dbg');
 	$date_time = date('Y-m-d h:i:s');
