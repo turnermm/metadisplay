@@ -42,10 +42,19 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
         else  $cmdline .= " -e " . 'off';     
     }
      if(!empty($commands['pcreated']) || !empty($commands['pmodified']) ) {
+		 if(empty($commands['year'] )) {
+			 $commands['year'] = date('Y');
+		 }
+		 if(empty($commands['month'] )) {
+			 $commands['month'] = '1';
+		 }
+		 if(empty($commands['day'] )) {
+			 $commands['day'] = '1';
+		 }
+		 
 	     $timestamp = $commands['year'] .'-'. $commands['month'] .'-'. $commands['day'];
-		 // msg($timestamp,1);
-         $w = $_REQUEST['when'] == 'earlier' ? ' -b  ': ' -a ';       
-          $cmdline .= $w . "$timestamp";// .($commands['pcreated']?'created':'modified');         
+         $w = (isset($_REQUEST['when']) && $_REQUEST['when'] == 'earlier') ? ' -b  ': ' -a ';       
+          $cmdline .= $w . "$timestamp";         
 		  $dtm = $commands['pcreated']?'created':'modified';
 		  $cmdline .= " --dtype $dtm"; 
     }

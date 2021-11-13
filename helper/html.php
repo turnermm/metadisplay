@@ -21,12 +21,7 @@ function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="") 
       chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta'); 
       define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;    
    }    
-   if(method_exists('cli_plugin_metadisplay','write_debug')) {
-	   //$exact,$search, $tm, $dtype
-	   $tzone = date_default_timezone_get() ;
-	$dbg = "Namespace: $subdir,page: $page, time: $tm, dtype: $dtype, exact: $exact, \ntzone: $tzone";  
-    cli_plugin_metadisplay::write_debug("\n\n".'In html.php' ."\n" . $dbg);
-}
+
     if($subdir == '.') $subdir = "";
     $this->page=str_replace(':', "",$page); 
     if($subdir) {
@@ -38,7 +33,7 @@ function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="") 
 	if($tm) {
 	 list($this->timestamp,$this->t_when) = explode(':',$tm);
 	 $this->dtype = $dtype;
-	 cli_plugin_metadisplay::write_debug($this->timestamp . " " .$this->t_when . " " .$dtype);
+	
 	}
     ob_start();
     $this->recurse('.');
@@ -91,11 +86,8 @@ function get_data($file,$id_path,$store_name="") {
     $this->match = true;
 
     $current = $data_array['current'];
-	cli_plugin_metadisplay::write_debug('created: ' . $this->getcurrent('date', 'created') .
-	' -- modified: ' . $this->getcurrent('date', 'modified'));
 	if($this->t_when) {
 		$tmstmp = $this->getcurrent('date', $this->dtype);
-		cli_plugin_metadisplay::write_debug('tmstmp: ' . $tmstmp . "type: " . $this->dtype . " when " . $this->t_when);
 		if($this->t_when == 'b' && $tmstmp > $this->timestamp) {
 			return;
 		}

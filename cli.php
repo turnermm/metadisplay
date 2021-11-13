@@ -5,10 +5,10 @@ use splitbrain\phpcli\Options;
 class cli_plugin_metadisplay extends DokuWiki_CLI_Plugin {
 private $helper;    
 protected function setup(Options $options) {
-    
     $options->setHelp('Displays metadata for specified namespace or page' . "\n".
     "USAGE:\n" .   "php plugin.php metadisplay " .
-"[-h] [--no-colors]  [--loglevel ] \n [[-n --namespace|.] [[-p -page] [-e --exact ]][-c --cmdL]][[-b --before|-a --after]: timestamp[modified|created]] "  
+     "[-h] [--no-colors]  [--loglevel ] \n [[-n --namespace|.] [[-p -page] [-e --exact ]][-c --cmdL]][[-b --before|-a --after] timestamp -d -dtype[modified|created]]. "   
+	 .  '<b>timestamp</b> can be actual timestamp or a numerical date of the form <b>Year-Month-Day</b>' 
     );
     $options->registerOption('version', 'print version and exit', 'v');
     $options->registerOption('namespace',
@@ -18,7 +18,7 @@ protected function setup(Options $options) {
 $options->registerOption('cmdL', 'set to "on" when accessing from command line in DOKU_INC/bin', 'c');
    $options->registerOption('before',  'before timestamp:[modified|created]', 'b');
     $options->registerOption('after', 'after timestamp:[modified|created]', 'a');
-    $options->registerOption('dtype', '"created" or "modified" date for "--before" and "--after"', 'd');	  
+    $options->registerOption('dtype', '"created" or "modified",  for "--before" and "--after" timestamp', 'd');	  
     $options->registerOption('search', 'set to search term', 's');
 }
 
@@ -28,7 +28,6 @@ protected function main(Options $options)
   
     if ($options->getOpt('namespace')) {    
        $opts = $options->getArgs();
-	    //$this->write_debug(print_r($opts,1) );
         $namespace; $page;$exact;$search;$cl;$tm;$dtype;		
         $this->get_commandLineOptions($namespace, $page,$exact,$search,$cl,$tm,$dtype,$opts);  
        // $this->write_debug("namespace $namespace, page $page,\n exact $exact, time $tm, dtype: $dtype");		
@@ -75,8 +74,6 @@ function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl,&$tm,&
         case 'b':  
         case 'before':
             $tm = $this->get_timestamp( $opts[$i+1]) . ':b';
-	        //$this->write_debug($tm);
-		
           break;
         case 'a':  
         case 'after':
@@ -85,7 +82,6 @@ function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl,&$tm,&
         case 'd':  
         case 'dtype':
             $dtype = $opts[$i+1];
-		   // $this->write_debug("modified: $dtype");
           break;   
         }
       }
