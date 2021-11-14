@@ -11,10 +11,16 @@
  * All DokuWiki plugins to extend the admin function
  * need to inherit from this class
  */
-define ("METADISP_CMDL",  'php ' .DOKU_INC . '/bin/plugin.php metadisplay ');
+define ("METADISP_CMDL",  'php ' .DOKU_INC . 'bin/plugin.php metadisplay ');
 class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
 
-    var $output ='';
+    private $output ='';
+	private $month = "";
+    private $year = ""; 
+    private $day = "";
+    private $page ="";
+    private $startdir = "";
+
   
     /**
      * handle user request
@@ -42,23 +48,35 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
         else  $cmdline .= " -e " . 'off';     
     }
      if(!empty($commands['pcreated']) || !empty($commands['pmodified']) ) {
+		 $date_not_set = "";
 		 if(empty($commands['year'] )) {
 			 $commands['year'] = date('Y');
+			 $date_not_set =  $commands['year'] ;
 		 }
 		 if(empty($commands['month'] )) {
+			 $date_not_set .= '1';
 			 $commands['month'] = '1';
 		 }
 		 if(empty($commands['day'] )) {
+			 $date_not_set .= '1';
 			 $commands['day'] = '1';
 		 }
-		 
+		  if($date_not_set) {
+			  $date_not_set =   $commands['year'] . '-' . $commands['month'] . '-' .  $commands['day'] = '1';
+			  msg("Using defaults for missing date fields: $date_not_set" ,1);
+		  }
 	     $timestamp = $commands['year'] .'-'. $commands['month'] .'-'. $commands['day'];
          $w = (isset($_REQUEST['when']) && $_REQUEST['when'] == 'earlier') ? ' -b  ': ' -a ';       
           $cmdline .= $w . "$timestamp";         
 		  $dtm = $commands['pcreated']?'created':'modified';
 		  $cmdline .= " --dtype $dtm"; 
     }
-
+    $cmdline .= ' -c html';
+    $this->year = $commands['year'];
+    $this->month = $commands['month'];
+    $this->day = $commands['day'];
+    $this->start_dir = $start_dir;
+    $this->page = (!empty($commands['page'])) ? $commands['page'] : "";
     msg($cmdline);
     $this->output =shell_exec($cmdline);
 
@@ -73,15 +91,15 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln('<input type="hidden" name="page" value="'.$this->getPluginName().'" />');
           formSecurityToken();
      
-          ptln('<div>Namespace: <input type="text" name="cmd[namespace]" placeholder="namespace:n2:n3. . ." />');
-          ptln('&nbsp; Page: <input type="text" name="cmd[page]" placeholder="page without extension" />');
+          ptln('<div>Namespace: <input type="text" name="cmd[namespace]" placeholder="namespace:n2:n3. . ." value = "' . $this->start_dir .'" />');
+          ptln('&nbsp; Page: <input type="text" name="cmd[page]" placeholder="page without extension" value = "' . $this->page .'" />');
           ptln('&nbsp; ' .$this->getLang('exact').':&nbsp <input type = "checkbox" name="cmd[exact]" />');
           ptln('<br />');
           ptln($this->getLang('date') . ':&nbsp;&nbsp;'); 
-          ptln('<input type="text" size = "6" name="cmd[year]" placeholder="Year" />');
-          ptln('<input type="text" size = "12" name="cmd[month]" placeholder="Month (1-12)" />');
-          ptln('<input type="text" size = "12" name="cmd[day]" placeholder="Day (1-31)" />');
-          ptln('<br />' . $this->getLang('when') );/*Only display files created*/
+          ptln('<input type="text" size = "6" name="cmd[year]" placeholder="Year"  value = "'. $this->year  .'"/>');
+          ptln('<input type="text" size = "12" name="cmd[month]" placeholder="Month (1-12)"  value = "' . $this->month .'"/>');
+          ptln('<input type="text" size = "12" name="cmd[day]" placeholder="Day (1-31)" value = "'.$this->day .'" />');
+          ptln('<br />' . $this->getLang('when') );
           ptln( '<input type="checkbox" name="cmd[pcreated]">');
           ptln($this->getLang('andor') . ' <input type="checkbox" name="cmd[pmodified]"');
           ptln ('<ol><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');

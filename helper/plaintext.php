@@ -5,11 +5,14 @@ global $timezone, $current,$conf;
 class helper_plugin_metadisplay_plaintext extends DokuWiki_Plugin {
 private $subdir = "";    
 private $page;
-private $match;
+private $match = false;
 private $exact_page_match = false;
-
-function init($subdir="", $page="",$exact="off", $search="") {
+private $timestamp;
+private $t_when;
+private $dtype;
+function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="")  {
    global $conf;  
+
   if($conf['savedir'] == './data') {
       chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
       define ('PAGES', DOKU_INC . '/'.trim( $conf['savedir'],"\/\\\.") . '/pages');  
@@ -26,12 +29,17 @@ function init($subdir="", $page="",$exact="off", $search="") {
          chdir($subdir);
     }
     if($exact == 'on') $this->exact_page_match = true;
-    $timezone = 'UTC'; // default timezone is set to Coordinated Univeral Time. You can reset your timezone here
-    date_default_timezone_set($timezone);
+	if($tm) {
+	 list($this->timestamp,$this->t_when) = explode(':',$tm);
+	 $this->dtype = $dtype;
+	
+	}
     ob_start();
     $this->recurse('.');
     if(!$this->match){
-        echo "No match for  $subdir:$page" ."\n";
+        if($page) $page = ":$page";
+        if($subdir) $subdir = "for $subdir";
+        echo "No match  $subdir$page" ."\n";
     }
     $contents = ob_get_contents();
     ob_end_clean();
@@ -75,10 +83,21 @@ function get_data($file,$id_path,$store_name="") {
   
     if ($data_array === false || !is_array($data_array)) return; 
     if (!isset($data_array['current'])) return;
-    $this->match = true;
+
+    $current = $data_array['current'];
+	if($this->t_when) {
+		$tmstmp = $this->getcurrent('date', $this->dtype);	
+		if($this->t_when == 'b' && $tmstmp > $this->timestamp) {
+			return;
+		}
+		else if($this->t_when == 'a' && $tmstmp < $this->timestamp) {
+			return;
+		}
+	}
+    $this->match = true;  
     echo "\n----------------\n$store_name";  
     echo "\n$id_path\n";  
-    $current = $data_array['current'];
+    
     $keys =  array('title','date','creator','last_change','relation');
     foreach ($keys AS $header) {
         switch($header) {

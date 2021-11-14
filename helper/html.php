@@ -5,7 +5,7 @@ global $timezone, $current,$conf;
 class helper_plugin_metadisplay_html extends DokuWiki_Plugin {
 private $subdir = "";    
 private $page;
-private $match;
+private $match = false;
 private $exact_page_match = false;
 private $timestamp;
 private $t_when;
@@ -21,7 +21,6 @@ function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="") 
       chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta'); 
       define ('PAGES',  '/'.trim( $conf['savedir'],"\/\\") . '/pages') ;    
    }    
-
     if($subdir == '.') $subdir = "";
     $this->page=str_replace(':', "",$page); 
     if($subdir) {
@@ -63,9 +62,11 @@ function recurse($dir) {
              $store_name = preg_replace('/^\./', $this->subdir, "$dir/$file");         
              $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';        
              if(!file_exists($id_name)) continue;            
-             $this->get_data("$dir/$file","$id_name",$store_name);
+             $success = $this->get_data("$dir/$file","$id_name",$store_name);
+             if($success) {
              echo "\n<br />";
         }
+    }
     }
 
     closedir($dh);
@@ -83,18 +84,18 @@ function get_data($file,$id_path,$store_name="") {
   
     if ($data_array === false || !is_array($data_array)) return; 
     if (!isset($data_array['current'])) return;
-    $this->match = true;
 
     $current = $data_array['current'];
 	if($this->t_when) {
 		$tmstmp = $this->getcurrent('date', $this->dtype);
 		if($this->t_when == 'b' && $tmstmp > $this->timestamp) {
-			return;
+			return false;
 		}
 		else if($this->t_when == 'a' && $tmstmp < $this->timestamp) {
-			return;
+			return false;
 		}
 	}
+    $this->match = true;
     echo $store_name ."\n";
     echo "\n" . '<table style="border-top:2px solid">' ."\n";
     echo "<tr><th colspan='2'>$id_path</th></tr>\n";	
@@ -105,7 +106,6 @@ function get_data($file,$id_path,$store_name="") {
                  $title = $this->getcurrent($header, null);
                  echo "<tr><td colspan='2'>Title: <b>$title</b></td></tr>\n";
                  break;                     
-                
             case 'date':                        
                  $this->process_dates($this->getcurrent('date', 'created'),$this->getcurrent('date', 'modified'));  
                  break;                 
@@ -143,6 +143,7 @@ function get_data($file,$id_path,$store_name="") {
 
         }  
        echo "\n</table>\n";
+       return true;
        $current = array();
 }
 

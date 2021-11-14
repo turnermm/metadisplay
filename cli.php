@@ -15,7 +15,7 @@ protected function setup(Options $options) {
 	'metadata namespace; the -n option with dot [.]	defaults to the top level. This option cannot be left blank if it is not followed by a page name','n');
     $options->registerOption('page', 'page name without namespace or extension, e.g. start', 'p');
     $options->registerOption('exact', 'set to "on"  for exact <b><u>page</u></b> match', 'e');
-$options->registerOption('cmdL', 'set to "on" when accessing from command line in DOKU_INC/bin', 'c');
+    $options->registerOption('cmdL', 'set automatically to "html" when accessing from admin.php', 'c');
    $options->registerOption('before',  'before timestamp:[modified|created]', 'b');
     $options->registerOption('after', 'after timestamp:[modified|created]', 'a');
     $options->registerOption('dtype', '"created" or "modified",  for "--before" and "--after" timestamp', 'd');	  
@@ -23,20 +23,17 @@ $options->registerOption('cmdL', 'set to "on" when accessing from command line i
 }
 
 // implement your code
-protected function main(Options $options)
-{       
-  
+protected function main(Options $options) {      
     if ($options->getOpt('namespace')) {    
        $opts = $options->getArgs();
         $namespace; $page;$exact;$search;$cl;$tm;$dtype;		
         $this->get_commandLineOptions($namespace, $page,$exact,$search,$cl,$tm,$dtype,$opts);  
-       // $this->write_debug("namespace $namespace, page $page,\n exact $exact, time $tm, dtype: $dtype");		
-           if($cl == 'on') {
+
+        if($cl == 'html') {
+            $helper =  plugin_load('helper','metadisplay_html'); 
+         } else {
                $helper =  plugin_load('helper','metadisplay_plaintext');
            }           
-           else {
-               $helper =  plugin_load('helper','metadisplay_html'); 
-           }
             $helper->init($namespace, $page,$exact,$search, $tm, $dtype);
             
     }
@@ -48,7 +45,6 @@ protected function main(Options $options)
     }
 }
 
-                              //  &$namespace, &$page,&$exact,&$search,&$cl,&$tm, $opts
 function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl,&$tm,&$dtype,$opts) {
     if(function_exists(is_countable($opts)) &&!is_countable($opts)) return;
     $namespace = array_shift($opts);
@@ -88,7 +84,6 @@ function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl,&$tm,&
 }
 
 function get_timestamp($date_str){
-	
     list($year,$month,$day) = explode('-',$date_str);
     $hour = '0'; $min = '01'; $second = '0';
     return  mktime($hour, $min, $second,$month,$day,$year);
