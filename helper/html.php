@@ -21,7 +21,7 @@ function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="") 
 
   if($conf['savedir'] == './data') {
       chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
-      define ('PAGES', DOKU_INC . '/'.trim( $conf['savedir'],"\/\\\.") . '/pages');  
+      define ('PAGES', DOKU_INC . trim( $conf['savedir'],"\/\\\.") . '/pages');  
   }      
    else {
       chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta'); 
