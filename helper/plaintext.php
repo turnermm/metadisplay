@@ -1,4 +1,10 @@
 <?php
+/**
+ * Plugin metadisplay"
+ * 
+ * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Myron Turner <turnermm02@shaw.ca
+ */
 if(!defined('DOKU_INC')) die();
 global $timezone, $current,$conf;
 
