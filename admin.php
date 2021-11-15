@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin metadisplY"
+ * Plugin metadisplay"
  * 
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Myron Turner <turnermm02@shaw.ca
@@ -20,7 +20,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     private $day = "";
     private $page ="";
     private $startdir = "";
-
+    private $CommandLine = "";
   
     /**
      * handle user request
@@ -77,7 +77,9 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     $this->day = $commands['day'];
     $this->start_dir = $start_dir;
     $this->page = (!empty($commands['page'])) ? $commands['page'] : "";
-    msg($cmdline);
+   // msg($cmdline);
+  //  $this->CommandLine = $cmdline;
+    $this->CommandLine = preg_replace('#^'. METADISP_CMDL .'(.*?)-c html#','php plugin.php metadisplay '."$1",$cmdline);
     $this->output =shell_exec($cmdline);
 
     } 
@@ -111,7 +113,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln('<input type="submit" name="submit"/>&nbsp;&nbsp;<input type="submit" value="help" name="help" /></div>');  
           
       ptln('</form>');
-      
+      ptln('<div>Command line: '. $this->CommandLine .'</div>'); 
       ptln('<div><br />'.$this->output.'</div>');    
     }
  
