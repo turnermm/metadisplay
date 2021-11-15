@@ -52,7 +52,7 @@ protected function main(Options $options) {
 }
 
 function get_commandLineOptions(&$namespace, &$page,&$exact,&$search,&$cl,&$tm,&$dtype,$opts) {
-    if(function_exists(is_countable($opts)) &&!is_countable($opts)) return;
+    if(function_exists('is_countable') &&!is_countable($opts)) return;
     $namespace = array_shift($opts);
     for($i=0; $i<count($opts); $i++) {
         $cl_switch = trim($opts[$i],'-');
