@@ -64,7 +64,7 @@ function recurse($dir) {
              if($this->exact_page_match) {
                 if(!preg_match("/^" . $this->page ."\.meta$/",$file)) continue;                 
              }
-             $this->$match = true;
+             $this->match = true;
              $store_name = preg_replace('/^\./', $this->subdir, "$dir/$file");         
              $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';        
              if(!file_exists($id_name)) continue;            
