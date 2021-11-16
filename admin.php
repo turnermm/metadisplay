@@ -78,9 +78,12 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     $this->start_dir = $start_dir;
     $this->page = (!empty($commands['page'])) ? $commands['page'] : "";
    // msg($cmdline);
-  //  $this->CommandLine = $cmdline;
-    $this->CommandLine = preg_replace('#^'. METADISP_CMDL .'(.*?)-c html#','php plugin.php metadisplay '."$1",$cmdline);
+    if(!$commands['testcl']) {
     $this->output =shell_exec($cmdline);
+    } else {
+       $this->CommandLine = preg_replace('#^'. METADISP_CMDL .'(.*?)-c html#','php plugin.php metadisplay '."$1",$cmdline);
+    }
+    
 
     } 
 
@@ -106,14 +109,14 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln($this->getLang('andor') . ' <input type="checkbox" name="cmd[pmodified]"');
           ptln ('<ol><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
           ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ol>');
-          ptln('</div>');
           
+          ptln('<div><input type="checkbox" id = "testcl" name="cmd[testcl]"> Test Command line: '. $this->CommandLine .'</div>'); 
+          ptln('</div>');          
  
           ptln('<div style="line-height:2">');
           ptln('<input type="submit" name="submit"/>&nbsp;&nbsp;<input type="submit" value="help" name="help" /></div>');  
           
       ptln('</form>');
-      ptln('<div>Command line: '. $this->CommandLine .'</div>'); 
       ptln('<div><br />'.$this->output.'</div>');    
     }
  

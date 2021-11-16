@@ -12,9 +12,9 @@ class cli_plugin_metadisplay extends DokuWiki_CLI_Plugin {
 private $helper;    
 protected function setup(Options $options) {
     $options->setHelp('Displays metadata for specified namespace or page' . "\n".
-    "USAGE:\n" .   "php plugin.php metadisplay " .
-     "[-h] [--no-colors]  [--loglevel ] \n [[-n --namespace|.] [[-p -page] [-e --exact ]][-c --cmdL]][[-b --before|-a --after] timestamp -d -dtype[modified|created]]. "   
-	 .  '<b>timestamp</b> can be actual timestamp or a numerical date of the form <b>Year-Month-Day</b>' 
+    "USAGE (from Command Line):\n" .   "php plugin.php metadisplay " .
+     "[-h] [--no-colors]  [--loglevel ] \n [[-n --namespace|.] [[-p -page] [-e --exact ]][-c --cmdL]][[-b --before|-a --after] timestamp -d -dtype[modified|created]] -c --cmdL. "   
+	 . "\n" . '<br /><b>timestamp</b> can be timestamp or numerical date of the form: <br /><b>Year-Month-Day</b>' 
     );
     $options->registerOption('version', 'print version and exit', 'v');
     $options->registerOption('namespace',
@@ -22,10 +22,10 @@ protected function setup(Options $options) {
     $options->registerOption('page', 'page name without namespace or extension, e.g. start', 'p');
     $options->registerOption('exact', 'set to "on"  for exact <b><u>page</u></b> match', 'e');
     $options->registerOption('cmdL', 'set automatically to "html" when accessing from admin.php', 'c');
-   $options->registerOption('before',  'before timestamp:[modified|created]', 'b');
-    $options->registerOption('after', 'after timestamp:[modified|created]', 'a');
-    $options->registerOption('dtype', '"created" or "modified",  for "--before" and "--after" timestamp', 'd');	  
-    $options->registerOption('search', 'set to search term', 's');
+    $options->registerOption('before',  'before timestamp', 'b');
+    $options->registerOption('after', 'after timestamp', 'a');
+    $options->registerOption('dtype', 'sets whether file\'s timestamp is read from "created" or "modified" field', 'd');	  
+  #  $options->registerOption('search', 'set to search term', 's');
 }
 
 // implement your code
