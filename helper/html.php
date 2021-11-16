@@ -105,7 +105,7 @@ function get_data($file,$id_path,$store_name="") {
     echo $store_name ."\n";
     echo "\n" . '<table style="border-top:2px solid">' ."\n";
     echo "<tr><th colspan='2'>$id_path</th></tr>\n";	
-    $keys =  array('title','date','creator','last_change','relation');
+    $keys =  array('title','date','creator','last_change','relation', 'description');
     foreach ($keys AS $header) {
         switch($header) {
             case 'title':               
@@ -142,8 +142,13 @@ function get_data($file,$id_path,$store_name="") {
                 $subject = $this->getcurrent($header,'subject');
                 $this->process_relation($isreferencedby,$references,$media,$firstimage,$haspart,$subject);
                 break;
+            case 'description':
+                echo "<tr><th colspan='2'>Description</th></tr>\n"; 
+                $description = htmlentities($this->getcurrent($header,'abstract'));
+                $description = preg_replace("/[\n]+/",'<br />', $description);
+                echo "<td colspan='2'>$description</td></tr>\n";            
+                break;         
             default:
-
                  break;
             }
 

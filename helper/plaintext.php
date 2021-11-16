@@ -104,7 +104,7 @@ function get_data($file,$id_path,$store_name="") {
     echo "\n----------------\n$store_name";  
     echo "\n$id_path\n";  
     
-    $keys =  array('title','date','creator','last_change','relation');
+    $keys =  array('title','date','creator','last_change','relation','description');
     foreach ($keys AS $header) {
         switch($header) {
             case 'title':               
@@ -140,8 +140,11 @@ function get_data($file,$id_path,$store_name="") {
                 $subject = $this->getcurrent($header,'subject');
                 $this->process_relation($isreferencedby,$references,$media,$firstimage,$haspart,$subject);
                 break;
+             case 'description':              
+                $description = $this->getcurrent($header,'abstract');            
+                $description = preg_replace("/[\n]+/","\n", $description);
+                echo "[Description] \n$description\n";                   
             default:
-
                  break;
             }
 
