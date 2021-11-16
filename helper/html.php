@@ -101,6 +101,10 @@ function get_data($file,$id_path,$store_name="") {
 			return false;
 		}
 	}
+    $description = $this->getcurrent('description','abstract');
+   // if(!preg_match("/\b\b/mi",$description)){
+   //     return false;
+    } 
     $this->match = true;
     echo $store_name ."\n";
     echo "\n" . '<table style="border-top:2px solid">' ."\n";

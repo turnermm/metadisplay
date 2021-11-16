@@ -15,3 +15,6 @@ $lang['later'] = '  later than the optional date';
 $lang['when'] = 'Only display files created '; 
 $lang['date'] =  'Optional date:';
 $lang['andor'] = 'and/or modified';
+$lang['search'] = 'Term to search for in the description field';
+$lang['exact_match'] = 'Exact match';
+$lang['fuzzy_match'] = 'Fuzzy match';

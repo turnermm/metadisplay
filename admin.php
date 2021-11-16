@@ -21,6 +21,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     private $page ="";
     private $startdir = "";
     private $CommandLine = "";
+    private $search = "";
   
     /**
      * handle user request
@@ -109,7 +110,9 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln($this->getLang('andor') . ' <input type="checkbox" name="cmd[pmodified]"');
           ptln ('<ol><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
           ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ol>');
-          
+          ptln($this->getLang("search") . ':&nbsp; <input type = "text" size = "20" name = "cmd[search]" placeholder = "Search term" />');
+          ptln ('&nbsp;<input type="radio" id="exact_match" name="srch-type" value="exact_match" /><label for="exact_match"> '.$this->getLang('exact_match').'</label>');
+          ptln('&nbsp;<input type="radio" id="fuzzy_match" name="srch-type" value="fuzzy_match"><label for="fuzzy_match"> ' .$this->getLang('fuzzy_match').'</label>'); 
           ptln('<div><input type="checkbox" id = "testcl" name="cmd[testcl]"> Test Command line: '. $this->CommandLine .'</div>'); 
           ptln('</div>');          
  
