@@ -64,12 +64,13 @@ function recurse($dir) {
              if($this->exact_page_match) {
                 if(!preg_match("/^" . $this->page ."\.meta$/",$file)) continue;                 
              }
-             $this->match = true;
+            
              $store_name = preg_replace('/^\./', $this->subdir, "$dir/$file");         
              $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';        
              if(!file_exists($id_name)) continue;            
              $success = $this->get_data("$dir/$file","$id_name",$store_name);
              if($success) {
+             $this->match = true;    
              echo "\n<br />";
         }
     }
@@ -89,7 +90,7 @@ function get_data($file,$id_path,$store_name="") {
     $creator =""; $creator_id="";
   
     if ($data_array === false || !is_array($data_array)) return; 
-    if (!isset($data_array['current'])) return;
+    if (!isset($data_array['current'])) return false;
 
     $current = $data_array['current'];
 	if($this->t_when) {
