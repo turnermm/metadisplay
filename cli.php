@@ -13,7 +13,7 @@ private $helper;
 protected function setup(Options $options) {
     $options->setHelp('Displays metadata for specified namespace or page' . "\n".
     "USAGE (from Command Line):\n" .   "php plugin.php metadisplay " .
-     "[-h] [--no-colors]  [--loglevel ] \n [[-n --namespace|.] [[-p -page] [-e --exact ]][-c --cmdL]][[-b --before|-a --after] timestamp -d -dtype[modified|created]] -c --cmdL. "   
+     "[-h] [--no-colors]  [--loglevel ] \n [[-n --namespace|.] [[-p -page] [-e --exact ]][-c --cmdL]][[-b --before|-a --after] timestamp -d -dtype [modified|created]] -s --search [search-term] -c --cmdL. "   
 	 . "\n" . '<br /><b>timestamp</b> can be timestamp or numerical date of the form: <br /><b>Year-Month-Day</b>' 
     );
     $options->registerOption('version', 'print version and exit', 'v');
@@ -25,7 +25,7 @@ protected function setup(Options $options) {
     $options->registerOption('before',  'before timestamp', 'b');
     $options->registerOption('after', 'after timestamp', 'a');
     $options->registerOption('dtype', 'sets whether file\'s timestamp is read from "created" or "modified" field', 'd');	  
-  #  $options->registerOption('search', 'set to search term', 's');
+    $options->registerOption('search', 'set to search term', 's');
 }
 
 // implement your code

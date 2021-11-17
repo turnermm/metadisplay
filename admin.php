@@ -48,6 +48,9 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
         }  
         else  $cmdline .= " -e " . 'off';     
     }
+    if(!empty($commands['search'])) {
+        $cmdline .= " -s " . $commands['search'];
+    }
      if(!empty($commands['pcreated']) || !empty($commands['pmodified']) ) {
 		 $date_not_set = "";
 		 if(empty($commands['year'] )) {

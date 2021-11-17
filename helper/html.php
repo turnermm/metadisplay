@@ -16,6 +16,8 @@ private $exact_page_match = false;
 private $timestamp;
 private $t_when;
 private $dtype;
+private $search;
+
 function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="") {
   global $conf;  
 
@@ -38,7 +40,9 @@ function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="") 
 	if($tm) {
 	 list($this->timestamp,$this->t_when) = explode(':',$tm);
 	 $this->dtype = $dtype;
-	
+	}
+    if($search) {     
+       $this->search = $search;
 	}
     ob_start();
     $this->recurse('.');
@@ -102,10 +106,15 @@ function get_data($file,$id_path,$store_name="") {
 			return false;
 		}
 	}
+    if($this->search) {        
     $description = $this->getcurrent('description','abstract');
-   // if(!preg_match("/\b\b/mi",$description)){
-   //     return false;
-    //} 
+        if(!preg_match("/". $this->search. "/i",$description)){
+            return false;
+        } 
+        else {
+            cli_plugin_metadisplay::write_debug($description);
+        }
+    }
     $this->match = true;
     echo $store_name ."\n";
     echo "\n" . '<table style="border-top:2px solid">' ."\n";
