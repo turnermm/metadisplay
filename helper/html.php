@@ -42,7 +42,7 @@ function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="") 
 	 $this->dtype = $dtype;
 	}
     if($search) {     
-       $this->search = $search;
+        $this->search = $this->get_regex($search);
 	}
     ob_start();
     $this->recurse('.');
@@ -277,5 +277,17 @@ function getcurrent($which, $other) {
 }
 function get_timestamp($hour=12, $min=60, $second=60,$month=1,$day=1,$year=1950) {
     return  mktime($hour, $min, $second,$month,$day,$year);
+}
+
+function get_regex($str) {
+    $str = preg_replace('{(.)\1+}','$1',$str);
+    $a = str_split($str);
+    
+    for($i = 0; $i < count($a); $i++) {
+        if(preg_match("/[aeiou]/",$a[$i])) {
+            $a[$i] = '[aeiou]+';
+        }
+    }
+    return implode("",$a);
 }
 }
