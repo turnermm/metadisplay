@@ -280,7 +280,7 @@ function get_timestamp($hour=12, $min=60, $second=60,$month=1,$day=1,$year=1950)
 }
 
 function get_regex($str) {
-    $str = preg_replace('{(.)\1+}','$1',$str);
+    $str = preg_replace('{([aeiou])\1+}','$1',$str);
     $a = str_split($str);
     
     for($i = 0; $i < count($a); $i++) {
