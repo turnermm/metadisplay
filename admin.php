@@ -22,6 +22,9 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     private $startdir = "";
     private $CommandLine = "";
     private $search = "";
+    private $stchecked_exact = 'checked';
+    private $stchecked_fuzzy = "";
+     
   
     /**
      * handle user request
@@ -49,7 +52,17 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
         else  $cmdline .= " -e " . 'off';     
     }
     if(!empty($commands['search'])) {
-        $cmdline .= " -s " . $commands['search'];
+        $this->search = $commands['search'];     
+        $this->stchecked_exact = "";
+        $this->stchecked_fuzzy = "";        
+        if($commands['srch_type'] == 'fuzzy') {       
+            $cmdline .= " -f " .  $this->search;
+            $this->stchecked_fuzzy = 'checked';
+        }
+        else {
+            $cmdline .= " -s " .  $this->search;
+            $this->stchecked_exact = 'checked';
+        }      
     }
      if(!empty($commands['pcreated']) || !empty($commands['pmodified']) ) {
 		 $date_not_set = "";
@@ -76,12 +89,13 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
 		  $cmdline .= " --dtype $dtm"; 
     }
     $cmdline .= ' -c html';
+ 
+   // msg('<pre>'.print_r($commands,1).'</pre>');
     $this->year = $commands['year'];
     $this->month = $commands['month'];
     $this->day = $commands['day'];
     $this->start_dir = $start_dir;
     $this->page = (!empty($commands['page'])) ? $commands['page'] : "";
-   // msg($cmdline);
     if(!$commands['testcl']) {
     $this->output =shell_exec($cmdline);
     } else {
@@ -113,9 +127,10 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln($this->getLang('andor') . ' <input type="checkbox" name="cmd[pmodified]"');
           ptln ('<ol><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
           ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ol>');
-          ptln($this->getLang("search") . ':&nbsp; <input type = "text" size = "20" name = "cmd[search]" placeholder = "Search term" />');
-          ptln ('&nbsp;<input type="radio" id="exact_match" name="srch-type" value="exact_match" /><label for="exact_match"> '.$this->getLang('exact_match').'</label>');
-          ptln('&nbsp;<input type="radio" id="fuzzy_match" name="srch-type" value="fuzzy_match"><label for="fuzzy_match"> ' .$this->getLang('fuzzy_match').'</label>'); 
+          ptln($this->getLang("search") . ':&nbsp; <input type = "text" size = "20" name = "cmd[search]" value="'.$this->search .'" placeholder = "Search term" />');
+          $_fchecked = $this->stchecked_fuzzy; $_echecked = $this->stchecked_exact;
+          ptln ('&nbsp;<input type="radio" id="exact_match" name="cmd[srch_type]" value="exact" ' ." $_echecked " .'/><label for="exact_match"> '.$this->getLang('exact_match').'</label>');
+          ptln('&nbsp;<input type="radio" id="fuzzy_match" name="cmd[srch_type]" value="fuzzy" ' . " $_fchecked " . '><label for="fuzzy_match"> ' .$this->getLang('fuzzy_match').'</label>'); 
           ptln('<div><input type="checkbox" id = "testcl" name="cmd[testcl]"> Test Command line: '. $this->CommandLine .'</div>'); 
           ptln('</div>');          
  
