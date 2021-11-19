@@ -32,17 +32,16 @@ protected function setup(Options $options) {
 // implement your code
 protected function main(Options $options) {      
     if ($options->getOpt('namespace')) {    
-       $opts = $options->getArgs();
-        $namespace; $page;$exact;$search;$cl;$tm;$dtype;		
-        $this->get_commandLineOptions($namespace, $page,$exact,$search,$fuzzy,$cl,$tm,$dtype,$opts);  
-
-        if($cl == 'html') {
+        $opts = $options->getArgs();  
+        $options = $this->get_commandLineOptions($opts);    
+    // $this->write_debug( print_r($options,1)); exit;
+        if($options['cl'] == 'html') {
             $helper =  plugin_load('helper','metadisplay_html'); 
          } else {
                $helper =  plugin_load('helper','metadisplay_plaintext');
            }           
-            $helper->init($namespace, $page,$exact,$search,$fuzzy, $tm, $dtype);
-            
+           // $helper->init($namespace, $page,$exact,$search,$fuzzy, $tm, $dtype);
+            $helper->init($options);
     }
     else if ($options->getOpt('version')) {
         $info = $this->getInfo();    
@@ -52,46 +51,54 @@ protected function main(Options $options) {
     }
 }
 
-function get_commandLineOptions(&$namespace,&$page,&$exact,&$search,&$fuzzy,&$cl,&$tm,&$dtype,$opts) {
+function get_commandLineOptions($opts) {
+    $results = array('namespace'=>"",'page'=>"",'exact'=>"off",'search'=>"",'fuzzy'=>"",'tm'=>"",'dtype'=>"");     
     if(function_exists('is_countable') &&!is_countable($opts)) return;
-    $namespace = array_shift($opts);
+    $results['namespace'] = array_shift($opts);
+    
     for($i=0; $i<count($opts); $i++) {
         $cl_switch = trim($opts[$i],'-');
         switch ($cl_switch) {
         case 'p':
         case 'page':    
-            $page =  $opts[$i+1];         
+            $page =  $opts[$i+1];
+            $results['page'] = $page;             
             break;
         case 'e':
         case 'exact':
-            $exact =  $opts[$i+1];            
+            $exact =  $opts[$i+1];  
+            $results['exact'] = $exact;            
             break;
         case 's':
         case 'search': 
-           $search =   $opts[$i+1];  
-            break;
+           $search =   $opts[$i+1]; 
+           $results['search'] = $page;           
+           break;
         case 'f':
         case 'fuzzy': 
-           $fuzzy =   $opts[$i+1];                   
+           $results['fuzzy'] =   $opts[$i+1];                   
            break;           
         case 'c':
         case 'cmdL':
-          $cl = $opts[$i+1];
+          $results['cl'] = $opts[$i+1];
           break;
         case 'b':  
         case 'before':
             $tm = $this->get_timestamp( $opts[$i+1]) . ':b';
-          break;
+            $results['tm'] = $tm; 
+            break;
         case 'a':  
         case 'after':
             $tm = $this->get_timestamp( $opts[$i+1]) . ':a';
+            $results['tm'] = $tm;             
             break;       
         case 'd':  
         case 'dtype':
-            $dtype = $opts[$i+1];
-          break;   
+           $results['dtype'] = $opts[$i+1];
+            break;   
         }
       }
+      return $results;
 }
 
 function get_timestamp($date_str){

@@ -52,7 +52,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
         else  $cmdline .= " -e " . 'off';     
     }
     if(!empty($commands['search'])) {
-        $this->search = $commands['search'];     
+        $this->search = $commands['search'];   
         $this->stchecked_exact = "";
         $this->stchecked_fuzzy = "";        
         if($commands['srch_type'] == 'fuzzy') {       
@@ -95,9 +95,9 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     $this->month = $commands['month'];
     $this->day = $commands['day'];
     $this->start_dir = $start_dir;
-    $this->page = (!empty($commands['page'])) ? $commands['page'] : "";
+    $this->page = (!empty($commands['page'])) ? $commands['page'] : "";   
     if(!$commands['testcl']) {
-    $this->output =shell_exec($cmdline);
+        $this->output =shell_exec($cmdline);
     } else {
        $this->CommandLine = preg_replace('#^'. METADISP_CMDL .'(.*?)-c html#','php plugin.php metadisplay '."$1",$cmdline);
     }

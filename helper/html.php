@@ -6,7 +6,7 @@
  * @author     Myron Turner <turnermm02@shaw.ca
  */
 if(!defined('DOKU_INC')) die();
-global $timezone, $current,$conf;
+global $timezone,$current,$conf;
 
 class helper_plugin_metadisplay_html extends DokuWiki_Plugin {
 private $subdir = "";    
@@ -19,9 +19,18 @@ private $dtype;
 private $search;
 private $fuzzy;
 
-function init($subdir="", $page="", $exact="off", $search="", $fuzzy="", $tm="", $dtype="") {
+//function init($subdir="", $page="", $exact="off", $search="", $fuzzy="", $tm="", $dtype="") {
+function init($options) {    
   global $conf;  
-
+ // $subdir=""; $page=""; $exact="off"; $search=""; $fuzzy=""; $tm=""; $dtype="";
+  $subdir=$options['namespace'];
+  $page=$options['page'];
+  $exact=$options['exact'];
+  $search=$options['search'];
+  $fuzzy=$options['fuzzy'];
+  $tm=$options['tm'];
+  $dtype=$options['dtype'];
+ 
   if($conf['savedir'] == './data') {
       chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
       define ('PAGES', DOKU_INC . trim( $conf['savedir'],"\/\\\.") . '/pages');  
@@ -40,11 +49,11 @@ function init($subdir="", $page="", $exact="off", $search="", $fuzzy="", $tm="",
     if($exact == 'on') $this->exact_page_match = true;
 	if($tm) {
 	 list($this->timestamp,$this->t_when) = explode(':',$tm);
-	 $this->dtype = $dtype;
+	 $this->dtype = $dtype;	
 	}
-    if($search) {     
+    if($search) {              
        $this->search = $search;
-	}
+    }
     else if($fuzzy) {
        $this->fuzzy = $this->get_regex($fuzzy);
     }
@@ -79,8 +88,8 @@ function recurse($dir) {
              if(!file_exists($id_name)) continue;            
              $success = $this->get_data("$dir/$file","$id_name",$store_name);
              if($success) {
-             $this->match = true;    
-             echo "\n<br />";
+                 $this->match = true;    
+                 echo "\n<br />";
         }
     }
     }
@@ -113,18 +122,20 @@ function get_data($file,$id_path,$store_name="") {
 	}
    
     $search = "";
+    $regex = "";
     if($this->fuzzy) {
         $search = $this->fuzzy;
+        $regex = '/' . $search . '/i';
     }
     else if($this->search) {
         $search = $this->search;
+        $regex = '/\b' . $search . '\b/';
     }
-    if($search) {        
-    $description = $this->getcurrent('description','abstract');
-        if(!preg_match("/". $search. "/i",$description)){
+    if($regex) {        
+        $description = $this->getcurrent('description','abstract');        
+        if(!preg_match($regex,$description)){
             return false;
-        } 
-        // cli_plugin_metadisplay::write_debug("search= $search, fuzzy = " . $this->fuzzy  . "\nexact=".$this->search);        
+        }                
     }
    
     $this->match = true;
