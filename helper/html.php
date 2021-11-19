@@ -17,8 +17,9 @@ private $timestamp;
 private $t_when;
 private $dtype;
 private $search;
+private $fuzzy;
 
-function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="") {
+function init($subdir="", $page="", $exact="off", $search="", $fuzzy="", $tm="", $dtype="") {
   global $conf;  
 
   if($conf['savedir'] == './data') {
@@ -42,8 +43,12 @@ function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="") 
 	 $this->dtype = $dtype;
 	}
     if($search) {     
-        $this->search = $this->get_regex($search);
+       $this->search = $search;
 	}
+    else if($fuzzy) {
+       $this->fuzzy = $this->get_regex($fuzzy);
+    }
+    
     ob_start();
     $this->recurse('.');
     if(!$this->match){
@@ -106,15 +111,22 @@ function get_data($file,$id_path,$store_name="") {
 			return false;
 		}
 	}
-    if($this->search) {        
+   
+    $search = "";
+    if($this->fuzzy) {
+        $search = $this->fuzzy;
+    }
+    else if($this->search) {
+        $search = $this->search;
+    }
+    if($search) {        
     $description = $this->getcurrent('description','abstract');
-        if(!preg_match("/". $this->search. "/i",$description)){
+        if(!preg_match("/". $search. "/i",$description)){
             return false;
         } 
-        else {
-            cli_plugin_metadisplay::write_debug($description);
-        }
+        // cli_plugin_metadisplay::write_debug("search= $search, fuzzy = " . $this->fuzzy  . "\nexact=".$this->search);        
     }
+   
     $this->match = true;
     echo $store_name ."\n";
     echo "\n" . '<table style="border-top:2px solid">' ."\n";
