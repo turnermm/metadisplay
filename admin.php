@@ -24,6 +24,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     private $search = "";
     private $stchecked_exact = 'checked';
     private $stchecked_fuzzy = "";
+    private $dtype="";
      
   
     /**
@@ -87,6 +88,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           $cmdline .= $w . "$timestamp";         
 		  $dtm = $commands['pcreated']?'created':'modified';
 		  $cmdline .= " --dtype $dtm"; 
+         $this->dtype = $dtm;
     }
     $cmdline .= ' -c html';
  
@@ -123,8 +125,18 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln('<input type="text" size = "12" name="cmd[month]" placeholder="Month (1-12)"  value = "' . $this->month .'"/>');
           ptln('<input type="text" size = "12" name="cmd[day]" placeholder="Day (1-31)" value = "'.$this->day .'" />');
           ptln('<br />' . $this->getLang('when') );
-          ptln( '<input type="checkbox" name="cmd[pcreated]">');
-          ptln($this->getLang('andor') . ' <input type="checkbox" name="cmd[pmodified]"');
+          
+          $dtype_c = "";
+          $dtype_m = "";
+          if($this->dtype == 'modified') {
+              $dtype_m = 'checked';           ;
+          }
+          if($this->dtype == 'created') {
+              $dtype_c = 'checked';            
+          }
+          
+          ptln( '<input type="checkbox" ' . $dtype_c . ' id = "pcreated" name="cmd[pcreated]">');
+          ptln($this->getLang('andor') . ' <input type="checkbox" '.$dtype_m .' id="pmodified" name="cmd[pmodified]"');
           ptln ('<ol><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
           ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ol>');
           ptln($this->getLang("search") . ':&nbsp; <input type = "text" size = "20" name = "cmd[search]" value="'.$this->search .'" placeholder = "Search term" />');
