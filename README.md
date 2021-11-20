@@ -7,6 +7,7 @@ USAGE:
    USAGE (from Command Line):                                             
    php plugin.php metadisplay [-h] [--no-colors]  [--loglevel ] [[-n --namespace|.] [[-p -page] [-e --exact ]]]
     [[-b --before|-a --after] timestamp -d -dtype [modified|created]] [[-s --search|-f --fuzzy] [search-term]] -c --cmdL 
+    
 timestamp can be timestamp or numerical date of the form: 
    
 Year-Month-Day                                            
