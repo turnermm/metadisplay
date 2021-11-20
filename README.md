@@ -1,7 +1,7 @@
 # metadisplay
 
 USAGE:
-   metadisplay 
+   metadisplay <OPTIONS>
 
    Displays metadata for specified namespace or page                      
    USAGE (from Command Line):                                             
