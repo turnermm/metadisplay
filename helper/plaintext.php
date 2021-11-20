@@ -16,12 +16,24 @@ private $exact_page_match = false;
 private $timestamp;
 private $t_when;
 private $dtype;
-function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="")  {
+private $search;
+private $fuzzy;
+
+//function init($subdir="", $page="", $exact="off", $search="", $fuzzy="", $tm="", $dtype="") {
+function init($options) {    
    global $conf;  
+ // $subdir=""; $page=""; $exact="off"; $search=""; $fuzzy=""; $tm=""; $dtype="";
+  $subdir=$options['namespace'];
+  $page=$options['page'];
+  $exact=$options['exact'];
+  $search=$options['search'];
+  $fuzzy=$options['fuzzy'];
+  $tm=$options['tm'];
+  $dtype=$options['dtype'];
 
   if($conf['savedir'] == './data') {
       chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
-      define ('PAGES', DOKU_INC . '/'.trim( $conf['savedir'],"\/\\\.") . '/pages');  
+      define ('PAGES', DOKU_INC . trim( $conf['savedir'],"\/\\\.") . '/pages');  
   }      
    else {
       chdir( '/'.trim( $conf['savedir'],"\/\\") . '/meta'); 
@@ -38,14 +50,18 @@ function init($subdir="", $page="",$exact="off", $search="", $tm="", $dtype="") 
 	if($tm) {
 	 list($this->timestamp,$this->t_when) = explode(':',$tm);
 	 $this->dtype = $dtype;
-	
 	}
+    if($search) {              
+       $this->search = $search;
+    }
+    else if($fuzzy) {
+       $this->fuzzy = $this->get_regex($fuzzy);
+    }
+	
     ob_start();
     $this->recurse('.');
     if(!$this->match){
-        if($page) $page = ":$page";
-        if($subdir) $subdir = "for $subdir";
-        echo "No match  $subdir$page" ."\n";
+        echo "No match for  $subdir:$page" ."\n";
     }
     $contents = ob_get_contents();
     ob_end_clean();
@@ -65,12 +81,15 @@ function recurse($dir) {
              if($this->exact_page_match) {
                 if(!preg_match("/^" . $this->page ."\.meta$/",$file)) continue;                 
              }
-             $this->match = true;
+            
              $store_name = preg_replace('/^\./', $this->subdir, "$dir/$file");         
              $id_name = PAGES . preg_replace("/\.meta$/","",$store_name) . '.txt';        
              if(!file_exists($id_name)) continue;            
-             $this->get_data("$dir/$file","$id_name",$store_name);
-      
+             $success = $this->get_data("$dir/$file","$id_name",$store_name);
+             if($success) {
+                 $this->match = true;    
+                 echo "\n";
+        }
         }
     }
 
@@ -88,18 +107,36 @@ function get_data($file,$id_path,$store_name="") {
     $creator =""; $creator_id="";
   
     if ($data_array === false || !is_array($data_array)) return; 
-    if (!isset($data_array['current'])) return;
+    if (!isset($data_array['current'])) return false;
 
     $current = $data_array['current'];
 	if($this->t_when) {
 		$tmstmp = $this->getcurrent('date', $this->dtype);	
 		if($this->t_when == 'b' && $tmstmp > $this->timestamp) {
-			return;
+			return false;
 		}
 		else if($this->t_when == 'a' && $tmstmp < $this->timestamp) {
-			return;
+			return false;
 		}
 	}
+   
+    $search = "";
+    $regex = "";
+    if($this->fuzzy) {
+        $search = $this->fuzzy;
+        $regex = '/' . $search . '/i';
+    }
+    else if($this->search) {
+        $search = $this->search;
+        $regex = '/\b' . $search . '\b/';
+    }
+    if($regex) {        
+        $description = $this->getcurrent('description','abstract');        
+        if(!preg_match($regex,$description)){
+            return false;
+		}
+	}
+   
     $this->match = true;  
     echo "\n----------------\n$store_name";  
     echo "\n$id_path\n";  
@@ -255,5 +292,17 @@ function getcurrent($which, $other) {
         return $current[$which];
     }
     return "";
+}
+
+function get_regex($str) {
+    $str = preg_replace('{([aeiou])\1+}','$1',$str);
+    $a = str_split($str);
+    
+    for($i = 0; $i < count($a); $i++) {
+        if(preg_match("/[aeiou]/",$a[$i])) {
+            $a[$i] = '[aeiou]+';
+        }
+    }
+    return implode("",$a);
 }
 }

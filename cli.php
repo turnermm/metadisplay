@@ -40,7 +40,7 @@ protected function main(Options $options) {
          } else {
                $helper =  plugin_load('helper','metadisplay_plaintext');
            }           
-           // $helper->init($namespace, $page,$exact,$search,$fuzzy, $tm, $dtype);
+         
             $helper->init($options);
     }
     else if ($options->getOpt('version')) {
