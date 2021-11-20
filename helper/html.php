@@ -298,9 +298,6 @@ function getcurrent($which, $other) {
     }
     return "";
 }
-function get_timestamp($hour=12, $min=60, $second=60,$month=1,$day=1,$year=1950) {
-    return  mktime($hour, $min, $second,$month,$day,$year);
-}
 
 function get_regex($str) {
     $str = preg_replace('{([aeiou])\1+}','$1',$str);
