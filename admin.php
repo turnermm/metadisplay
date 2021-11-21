@@ -24,6 +24,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     private $search = "";
     private $stchecked_exact = 'checked';
     private $stchecked_fuzzy = "";
+    private $dtype="";
      
   
     /**
@@ -52,7 +53,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
         else  $cmdline .= " -e " . 'off';     
     }
     if(!empty($commands['search'])) {
-        $this->search = $commands['search'];     
+        $this->search = $commands['search'];   
         $this->stchecked_exact = "";
         $this->stchecked_fuzzy = "";        
         if($commands['srch_type'] == 'fuzzy') {       
@@ -87,6 +88,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           $cmdline .= $w . "$timestamp";         
 		  $dtm = $commands['pcreated']?'created':'modified';
 		  $cmdline .= " --dtype $dtm"; 
+         $this->dtype = $dtm;
     }
     $cmdline .= ' -c html';
  
@@ -95,9 +97,9 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     $this->month = $commands['month'];
     $this->day = $commands['day'];
     $this->start_dir = $start_dir;
-    $this->page = (!empty($commands['page'])) ? $commands['page'] : "";
+    $this->page = (!empty($commands['page'])) ? $commands['page'] : "";   
     if(!$commands['testcl']) {
-    $this->output =shell_exec($cmdline);
+        $this->output =shell_exec($cmdline);
     } else {
        $this->CommandLine = preg_replace('#^'. METADISP_CMDL .'(.*?)-c html#','php plugin.php metadisplay '."$1",$cmdline);
     }
@@ -123,8 +125,18 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln('<input type="text" size = "12" name="cmd[month]" placeholder="Month (1-12)"  value = "' . $this->month .'"/>');
           ptln('<input type="text" size = "12" name="cmd[day]" placeholder="Day (1-31)" value = "'.$this->day .'" />');
           ptln('<br />' . $this->getLang('when') );
-          ptln( '<input type="checkbox" name="cmd[pcreated]">');
-          ptln($this->getLang('andor') . ' <input type="checkbox" name="cmd[pmodified]"');
+          
+          $dtype_c = "";
+          $dtype_m = "";
+          if($this->dtype == 'modified') {
+              $dtype_m = 'checked';           ;
+          }
+          if($this->dtype == 'created') {
+              $dtype_c = 'checked';            
+          }
+          
+          ptln( '<input type="checkbox" ' . $dtype_c . ' id = "pcreated" name="cmd[pcreated]">');
+          ptln($this->getLang('andor') . ' <input type="checkbox" '.$dtype_m .' id="pmodified" name="cmd[pmodified]"');
           ptln ('<ol><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
           ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ol>');
           ptln($this->getLang("search") . ':&nbsp; <input type = "text" size = "20" name = "cmd[search]" value="'.$this->search .'" placeholder = "Search term" />');
