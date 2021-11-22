@@ -34,14 +34,15 @@ protected function main(Options $options) {
     if ($options->getOpt('namespace')) {    
        $opts = $options->getArgs();
         $namespace; $page;$exact;$search;$cl;$tm;$dtype;		
-        $this->get_commandLineOptions($namespace, $page,$exact,$search,$fuzzy,$cl,$tm,$dtype,$opts);  
+        $clopts = $this->get_commandLineOptions($opts);  
 
-        if($cl == 'html') {
+        if($clopts['cl'] == 'html') {
             $helper =  plugin_load('helper','metadisplay_html'); 
          } else {
                $helper =  plugin_load('helper','metadisplay_plaintext');
            }           
-            $helper->init($namespace, $page,$exact,$search,$fuzzy, $tm, $dtype);
+          //  $helper->init($namespace, $page,$exact,$search,$fuzzy, $tm, $dtype);
+          $helper->init($clopts);
             
     }
     else if ($options->getOpt('version')) {
@@ -52,8 +53,10 @@ protected function main(Options $options) {
     }
 }
 
-function get_commandLineOptions(&$namespace,&$page,&$exact,&$search,&$fuzzy,&$cl,&$tm,&$dtype,$opts) {
+function get_commandLineOptions($opts) {
     if(function_exists('is_countable') &&!is_countable($opts)) return;
+    
+    $page=""; $exact=""; $cl=""; $search=""; $fuzzy=""; $tm=""; $dtype="";
     $namespace = array_shift($opts);
     for($i=0; $i<count($opts); $i++) {
         $cl_switch = trim($opts[$i],'-');
@@ -92,6 +95,14 @@ function get_commandLineOptions(&$namespace,&$page,&$exact,&$search,&$fuzzy,&$cl
           break;   
         }
       }
+      $ret = array('namespace'=>$namespace,'page'=>$page,'exact'=>$exact,'search'=>$search,'fuzzy'=>$fuzzy,
+           'cl'=>$cl,'tm'=>$tm,'dtype'=>$dtype);
+      return $ret;     
+/*      
+      $this->write_debug(print_r($ret,1));
+      $this->write_debug("ns: $namespace, page: $page, exact: $exact, 'search: $search,'fuzzy: $fuzzy',
+                   'cl: ' $cl,'tm: $tm, 'dtype: $dtype");      
+*/                   
 }
 
 function get_timestamp($date_str){

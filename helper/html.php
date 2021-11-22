@@ -19,8 +19,17 @@ private $dtype;
 private $search;
 private $fuzzy;
 
-function init($subdir="", $page="", $exact="off", $search="", $fuzzy="", $tm="", $dtype="") {
+//function init($subdir="", $page="", $exact="off", $search="", $fuzzy="", $tm="", $dtype="") {
+function init($options) {    
   global $conf;  
+ // $subdir=""; $page=""; $exact="off"; $search=""; $fuzzy=""; $tm=""; $dtype="";
+  $subdir=$options['namespace'];
+  $page=$options['page'];
+  $exact=$options['exact'];
+  $search=$options['search'];
+  $fuzzy=$options['fuzzy'];
+  $tm=$options['tm'];
+  $dtype=$options['dtype'];
 
   if($conf['savedir'] == './data') {
       chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
@@ -94,6 +103,7 @@ function recurse($dir) {
 */
 function get_data($file,$id_path,$store_name="") {
     global $current;
+    $description = "";
     $data = file_get_contents($file);
     $data_array = @unserialize(file_get_contents($file));   
     $creator =""; $creator_id="";
@@ -113,18 +123,21 @@ function get_data($file,$id_path,$store_name="") {
 	}
    
     $search = "";
+    $regex = "";
     if($this->fuzzy) {
         $search = $this->fuzzy;
+        $regex = '/' . $search . '/i';
     }
     else if($this->search) {
         $search = $this->search;
+        $regex = '/\b' . $search . '\b/';
     }
-    if($search) {        
+    if($regex) {        
     $description = $this->getcurrent('description','abstract');
-        if(!preg_match("/". $search. "/i",$description)){
+        if(!preg_match($regex,$description)){
             return false;
         } 
-        // cli_plugin_metadisplay::write_debug("search= $search, fuzzy = " . $this->fuzzy  . "\nexact=".$this->search);        
+        $description = str_replace($search,"<span style='color:blue'>$search</span>",$description);    
     }
    
     $this->match = true;
@@ -170,7 +183,9 @@ function get_data($file,$id_path,$store_name="") {
                 break;
             case 'description':
                 echo "<tr><th colspan='2'>Description</th></tr>\n"; 
+                if(!$description) {
                 $description = htmlentities($this->getcurrent($header,'abstract'));
+                }
                 $description = preg_replace("/[\n]+/",'<br />', $description);
                 echo "<td colspan='2'>$description</td></tr>\n";            
                 break;         
@@ -286,9 +301,6 @@ function getcurrent($which, $other) {
         return $current[$which];
     }
     return "";
-}
-function get_timestamp($hour=12, $min=60, $second=60,$month=1,$day=1,$year=1950) {
-    return  mktime($hour, $min, $second,$month,$day,$year);
 }
 
 function get_regex($str) {
