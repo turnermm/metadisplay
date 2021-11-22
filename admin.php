@@ -137,12 +137,17 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           
           ptln( '<input type="checkbox" ' . $dtype_c . ' id = "pcreated" name="cmd[pcreated]">');
           ptln($this->getLang('andor') . ' <input type="checkbox" '.$dtype_m .' id="pmodified" name="cmd[pmodified]"');
-          ptln ('<ol><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
-          ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ol>');
+          ptln ('<ul><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
+          ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ul>');
           ptln($this->getLang("search") . ':&nbsp; <input type = "text" size = "20" name = "cmd[search]" value="'.$this->search .'" placeholder = "Search term" />');
+ 
           $_fchecked = $this->stchecked_fuzzy; $_echecked = $this->stchecked_exact;
-          ptln ('&nbsp;<input type="radio" id="exact_match" name="cmd[srch_type]" value="exact" ' ." $_echecked " .'/><label for="exact_match"> '.$this->getLang('exact_match').'</label>');
+          ptln ('&nbsp;&nbsp;&nbsp;<input type="radio" id="exact_match" name="cmd[srch_type]" value="exact" ' ." $_echecked " .'/><label for="exact_match"> '.$this->getLang('exact_match').'</label>');
           ptln('&nbsp;<input type="radio" id="fuzzy_match" name="cmd[srch_type]" value="fuzzy" ' . " $_fchecked " . '><label for="fuzzy_match"> ' .$this->getLang('fuzzy_match').'</label>'); 
+          ptln('&nbsp;&nbsp;&nbsp;<input type="radio" id="link" name="ltype" value="link"><label for="link"> ' .$this->getLang('links').'</label>');
+          ptln(' <input type="radio" id="media" name="ltype" value="media"><label for="media"> ' .$this->getLang('media').'</label>');
+          ptln(' <input type="radio" id="descr" name="ltype" checked value=""><label for="descr"> ' .$this->getLang('descr').'</label>');     
+  
           ptln('<div><input type="checkbox" id = "testcl" name="cmd[testcl]"> Test Command line: '. $this->CommandLine .'</div>'); 
           ptln('</div>');          
  

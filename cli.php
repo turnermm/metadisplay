@@ -27,13 +27,14 @@ protected function setup(Options $options) {
     $options->registerOption('dtype', 'sets whether file\'s timestamp is read from "created" or "modified" field', 'd');	  
     $options->registerOption('search', 'set to search term, exact match', 's');
     $options->registerOption('fuzzy', 'set to search term, fuzzy match', 'f');
+    $options->registerOption('ltype', 'set to link type for search: link, media', 'l');    
 }
 
 // implement your code
 protected function main(Options $options) {      
     if ($options->getOpt('namespace')) {    
        $opts = $options->getArgs();
-        $namespace; $page;$exact;$search;$cl;$tm;$dtype;		
+       		
         $clopts = $this->get_commandLineOptions($opts);  
 
         if($clopts['cl'] == 'html') {
@@ -41,7 +42,7 @@ protected function main(Options $options) {
          } else {
                $helper =  plugin_load('helper','metadisplay_plaintext');
            }           
-          //  $helper->init($namespace, $page,$exact,$search,$fuzzy, $tm, $dtype);
+         
           $helper->init($clopts);
             
     }
@@ -56,7 +57,7 @@ protected function main(Options $options) {
 function get_commandLineOptions($opts) {
     if(function_exists('is_countable') &&!is_countable($opts)) return;
     
-    $page=""; $exact=""; $cl=""; $search=""; $fuzzy=""; $tm=""; $dtype="";
+    $page=""; $exact=""; $cl=""; $search=""; $fuzzy=""; $tm=""; $dtype=""; $ltype="";
     $namespace = array_shift($opts);
     for($i=0; $i<count($opts); $i++) {
         $cl_switch = trim($opts[$i],'-');
@@ -93,8 +94,13 @@ function get_commandLineOptions($opts) {
         case 'dtype':
             $dtype = $opts[$i+1];
           break;   
+        case 'l':
+        case 'ltype':
+          $ltype  = $opts[$i+1];
+          break;
         }
       }
+           
       $ret = array('namespace'=>$namespace,'page'=>$page,'exact'=>$exact,'search'=>$search,'fuzzy'=>$fuzzy,
            'cl'=>$cl,'tm'=>$tm,'dtype'=>$dtype);
       return $ret;     
