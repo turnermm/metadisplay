@@ -81,7 +81,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
            $this->descr_checked = 'checked';
        }  
                
-       msg($ltype,1);
+     //  msg($ltype,1);
        $cmdline .= " -l $ltype ";     
     }
     }
