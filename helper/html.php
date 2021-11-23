@@ -130,7 +130,7 @@ function get_data($file,$id_path,$store_name="") {
     }
     else if($this->search) {
         $search = $this->search;
-        $regex = '/(' . $search . ')/m';
+        $regex = '/\b' . $search . '\b/';
     }
     if($regex) {        
     $description = $this->getcurrent('description','abstract');
