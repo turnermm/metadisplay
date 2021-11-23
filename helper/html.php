@@ -126,18 +126,18 @@ function get_data($file,$id_path,$store_name="") {
     $regex = "";
     if($this->fuzzy) {
         $search = $this->fuzzy;
-        $regex = '/' . $search . '/i';
+        $regex = '/(' . $search . ')/im';
     }
     else if($this->search) {
         $search = $this->search;
-        $regex = '/\b' . $search . '\b/';
+        $regex = '/(' . $search . ')/m';
     }
     if($regex) {        
     $description = $this->getcurrent('description','abstract');
         if(!preg_match($regex,$description)){
             return false;
         } 
-        $description = str_replace($search,"<span style='color:blue'>$search</span>",$description);    
+        $description = preg_replace($regex,"<span style='color:blue'>$1</span>",$description);    
     }
    
     $this->match = true;
