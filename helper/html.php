@@ -146,11 +146,8 @@ function get_data($file,$id_path,$store_name="") {
         $description = preg_replace($regex,"<span style='color:blue'>$1</span>",$description);    
     }
         else if($this->ltype == 'media') {
-            $media = $this->getcurrent('relation','media');
-            if(!preg_match($regex,$media)){
-                return false;
-            }        
-         
+            $media = $this->check_listtypes('media',$regex);
+            if(!$media) return false;              
         }  
         else if($this->ltype == 'links') {
             $references = $this->check_listtypes('references',$regex);
@@ -339,14 +336,13 @@ function get_regex($str) {
 }
 
 function check_listtypes($which,$regex) {   
-    if($which == 'references') {
+    if($which == 'references' || $which == 'media') {
         $ar = $this->getcurrent('relation',$which);
-        $references = array_keys($ar);
+        $references = array_keys($ar); // references here refers to either images or links
         if(!empty($references)) {
             $str = implode('|',$references);           
             if(preg_match($regex,$str)) {
                     $str = preg_replace($regex,"<span style='color:blue'>$1</span>",$str);
-                   // cli_plugin_metadisplay::write_debug($str);
                     if($str) {
                         $arr = explode('|', $str);
                         $vals = array_values($ar);
