@@ -18,6 +18,7 @@ private $t_when;
 private $dtype;
 private $search;
 private $fuzzy;
+private $ltype = "";
 
 //function init($subdir="", $page="", $exact="off", $search="", $fuzzy="", $tm="", $dtype="") {
 function init($options) {    
@@ -30,6 +31,7 @@ function init($options) {
   $fuzzy=$options['fuzzy'];
   $tm=$options['tm'];
   $dtype=$options['dtype'];
+  $ltype=$options['ltype'];  
 
   if($conf['savedir'] == './data') {
       chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
@@ -56,6 +58,9 @@ function init($options) {
 	}
     else if($fuzzy) {
        $this->fuzzy = $this->get_regex($fuzzy);
+    }
+    if($search || $fuzzy) {
+       if($ltype) $this->ltype = $ltype;
     }
     
     ob_start();
@@ -132,12 +137,26 @@ function get_data($file,$id_path,$store_name="") {
         $search = $this->search;
         $regex = '/(' . $search . ')/m';
     }
-    if($regex) {        
+    if($regex) {  
+        if($this->ltype == 'descr') {     
     $description = $this->getcurrent('description','abstract');
         if(!preg_match($regex,$description)){
             return false;
         } 
         $description = preg_replace($regex,"<span style='color:blue'>$1</span>",$description);    
+    }
+        else if($this->ltype == 'media') {
+            $media = $this->getcurrent('relation','media');
+            if(!preg_match($regex,$media)){
+                return false;
+            }        
+         
+        }  
+        else if($this->ltype == 'links') {
+            $references = $this->check_listtypes('references',$regex);
+            if(!$references) return false;
+        } 
+        
     }
    
     $this->match = true;
@@ -174,8 +193,12 @@ function get_data($file,$id_path,$store_name="") {
                  break;   
             case 'relation':                
                 $isreferencedby = $this->getcurrent($header,'isreferencedby');
+                if(!$references) {
                 $references = $this->getcurrent($header,'references');
+                }
+                if(!$media) {
                 $media = $this->getcurrent($header,'media');
+                }
                 $firstimage = $this->getcurrent($header,'firstimage');
                 $haspart = $this->getcurrent($header,'haspart');
                 $subject = $this->getcurrent($header,'subject');
@@ -314,4 +337,31 @@ function get_regex($str) {
     }
     return implode("",$a);
 }
+
+function check_listtypes($which,$regex) {   
+    if($which == 'references') {
+        $ar = $this->getcurrent('relation',$which);
+        $references = array_keys($ar);
+        if(!empty($references)) {
+            $str = implode('|',$references);           
+            if(preg_match($regex,$str)) {
+                    $str = preg_replace($regex,"<span style='color:blue'>$1</span>",$str);
+                   // cli_plugin_metadisplay::write_debug($str);
+                    if($str) {
+                        $arr = explode('|', $str);
+                        $vals = array_values($ar);
+                        $val_str = implode('|',$vals);
+                        $val_str = preg_replace($regex,"<span style='color:blue'>$1</span>",$val_str);
+                        $vals = explode('|',$val_str);
+                        return array_combine($arr,$vals);
+                    }
+                }
+                return false;
+            }
+          return false;
+        }
+    return $ar;
+}
+
+
 }

@@ -102,7 +102,7 @@ function get_commandLineOptions($opts) {
       }
            
       $ret = array('namespace'=>$namespace,'page'=>$page,'exact'=>$exact,'search'=>$search,'fuzzy'=>$fuzzy,
-           'cl'=>$cl,'tm'=>$tm,'dtype'=>$dtype);
+           'cl'=>$cl,'tm'=>$tm,'dtype'=>$dtype, 'ltype'=>$ltype);
       return $ret;     
 /*      
       $this->write_debug(print_r($ret,1));
