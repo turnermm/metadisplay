@@ -161,7 +161,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ul>');
           
            /* Search */
-          ptln("<br />Only description field is currently active <br />");
+         // ptln("<br />Only description field is currently active <br />");
           ptln($this->getLang("search") . ':&nbsp; <input type = "text" size = "20" name = "cmd[search]" value="'.$this->search .'" placeholder = "Search term" />');
           $_fchecked = $this->stchecked_fuzzy; $_echecked = $this->stchecked_exact;
           ptln ('&nbsp;&nbsp;&nbsp;<input type="radio" id="exact_match" name="cmd[srch_type]" value="exact" ' ." $_echecked " .'/><label for="exact_match"> '.$this->getLang('exact_match').'</label>');
