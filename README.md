@@ -1,51 +1,38 @@
 # metadisplay
 
+Displays metadata for specified namespace or page
+
 USAGE:
-   metadisplay <OPTIONS>
+ On Command Line from bin/ directory:
+ 
+           php plugin.php metadisplay <OPTIONS>
 
-   Displays metadata for specified namespace or page                      
-   USAGE (from Command Line):                                             
-   php plugin.php metadisplay [-h] [--no-colors]  [--loglevel ] [[-n --namespace|.] [[-p -page] [-e --exact ]]]
-    [[-b --before|-a --after] timestamp -d -dtype [modified|created]] [[-s --search|-f --fuzzy] [search-term]] -c --cmdL 
-    
-timestamp can be timestamp or numerical date of the form: 
+  
+   Options (in following order):
    
-Year-Month-Day                                            
-                                                                          
+          [[--no-colors]  [--loglevel ]  -n  [--namespace] [ -p --page|.] [-e <off|on>]
 
-OPTIONS:
-   -v, --version         print version and exit                           
 
-   -n, --namespace       metadata namespace; the -n option with dot       
-                         [.]	defaults to the top level. This option cannot
-                         be left blank if it is not followed by a page    
-                         name                                             
+OPTIONS: 
 
-   -p, --page            page name without namespace or extension, e.g.   
-                         start                                            
+  ``` -v, --version                     print version and exit
 
-   -e, --exact           set to "on"  for exact page match  
+   -n, --namespace                   metadata namespace; the -n option with no namespace or  dot [.] defaults
+                                     to the top level. The dot is required if -n option is followed by a second option, e.g -p
 
-   -c, --cmdL            set automatically to "html" when accessing from  
-                         admin.php                                        
+   -p, --page                        page name without namespace or extension, e.g. start
 
-   -b, --before          before timestamp                                 
+   -e, --exact                       exact page match, set to on for exact match, off for normal match
 
-   -a, --after           after timestamp                                  
+   -h, --help                        Display this help screen and exit immeadiately.
 
-   -d, --dtype           sets whether file's timestamp is read from       
-                         "created" or "modified" field                    
+   --no-colors                       Do not use any colors in output. Useful when piping output to other tools
+                                     or files.
 
-   -s, --search          set to search term, exact match                  
+   --loglevel <level>                Minimum level of messages to display. Default is info. Valid levels are:
+                                     debug, info, notice, success, warning, error, critical, alert, emergency.
+```
+The plugin simplifies this in an admin panel accessed from the wiki's administration page
 
-   -f, --fuzzy           set to search term, fuzzy match                  
 
-   -h, --help            Display this help screen and exit immediately.   
 
-   --no-colors           Do not use any colors in output. Useful when     
-                         piping output to other tools or files.           
-
-   --loglevel     Minimum level of messages to display. Default is 
-                         info. Valid levels are: debug, info, notice,     
-                         success, warning, error, critical, alert,        
-                         emergency.                                       

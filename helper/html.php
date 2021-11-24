@@ -6,7 +6,7 @@
  * @author     Myron Turner <turnermm02@shaw.ca
  */
 if(!defined('DOKU_INC')) die();
-global $timezone,$current,$conf;
+global $timezone, $current,$conf;
 
 class helper_plugin_metadisplay_html extends DokuWiki_Plugin {
 private $subdir = "";    
@@ -18,6 +18,7 @@ private $t_when;
 private $dtype;
 private $search;
 private $fuzzy;
+private $ltype = "";
 
 //function init($subdir="", $page="", $exact="off", $search="", $fuzzy="", $tm="", $dtype="") {
 function init($options) {    
@@ -30,7 +31,8 @@ function init($options) {
   $fuzzy=$options['fuzzy'];
   $tm=$options['tm'];
   $dtype=$options['dtype'];
- 
+  $ltype=$options['ltype'];  
+
   if($conf['savedir'] == './data') {
       chdir(DOKU_INC . trim($conf['savedir'],'.\/') . '/meta');  
       define ('PAGES', DOKU_INC . trim( $conf['savedir'],"\/\\\.") . '/pages');  
@@ -49,13 +51,16 @@ function init($options) {
     if($exact == 'on') $this->exact_page_match = true;
 	if($tm) {
 	 list($this->timestamp,$this->t_when) = explode(':',$tm);
-	 $this->dtype = $dtype;	
+	 $this->dtype = $dtype;
 	}
-    if($search) {              
+    if($search) {     
        $this->search = $search;
-    }
+	}
     else if($fuzzy) {
        $this->fuzzy = $this->get_regex($fuzzy);
+    }
+    if($search || $fuzzy) {
+       if($ltype) $this->ltype = $ltype;
     }
     
     ob_start();
@@ -88,8 +93,8 @@ function recurse($dir) {
              if(!file_exists($id_name)) continue;            
              $success = $this->get_data("$dir/$file","$id_name",$store_name);
              if($success) {
-                 $this->match = true;    
-                 echo "\n<br />";
+             $this->match = true;    
+             echo "\n<br />";
         }
     }
     }
@@ -103,6 +108,7 @@ function recurse($dir) {
 */
 function get_data($file,$id_path,$store_name="") {
     global $current;
+    $description = "";
     $data = file_get_contents($file);
     $data_array = @unserialize(file_get_contents($file));   
     $creator =""; $creator_id="";
@@ -125,17 +131,29 @@ function get_data($file,$id_path,$store_name="") {
     $regex = "";
     if($this->fuzzy) {
         $search = $this->fuzzy;
-        $regex = '/' . $search . '/i';
+        $regex = '/(' . $search . ')/im';
     }
     else if($this->search) {
         $search = $this->search;
-        $regex = '/\b' . $search . '\b/';
+        $regex = '/(' . $search . ')/m';
     }
-    if($regex) {        
-        $description = $this->getcurrent('description','abstract');        
+    if($regex) {  
+        if($this->ltype == 'descr') {     
+    $description = $this->getcurrent('description','abstract');
         if(!preg_match($regex,$description)){
             return false;
-        }                
+        } 
+        $description = preg_replace($regex,"<span style='color:blue'>$1</span>",$description);    
+    }
+        else if($this->ltype == 'media') {
+            $media = $this->check_listtypes('media',$regex);
+            if(!$media) return false;              
+        }  
+        else if($this->ltype == 'links') {
+            $references = $this->check_listtypes('references',$regex);
+            if(!$references) return false;
+        } 
+        
     }
    
     $this->match = true;
@@ -172,8 +190,12 @@ function get_data($file,$id_path,$store_name="") {
                  break;   
             case 'relation':                
                 $isreferencedby = $this->getcurrent($header,'isreferencedby');
+                if(!$references) {
                 $references = $this->getcurrent($header,'references');
+                }
+                if(!$media) {
                 $media = $this->getcurrent($header,'media');
+                }
                 $firstimage = $this->getcurrent($header,'firstimage');
                 $haspart = $this->getcurrent($header,'haspart');
                 $subject = $this->getcurrent($header,'subject');
@@ -181,7 +203,9 @@ function get_data($file,$id_path,$store_name="") {
                 break;
             case 'description':
                 echo "<tr><th colspan='2'>Description</th></tr>\n"; 
+                if(!$description) {
                 $description = htmlentities($this->getcurrent($header,'abstract'));
+                }
                 $description = preg_replace("/[\n]+/",'<br />', $description);
                 echo "<td colspan='2'>$description</td></tr>\n";            
                 break;         
@@ -310,4 +334,30 @@ function get_regex($str) {
     }
     return implode("",$a);
 }
+
+function check_listtypes($which,$regex) {   
+    if($which == 'references' || $which == 'media') {
+        $ar = $this->getcurrent('relation',$which);
+        $references = array_keys($ar); // references here refers to either images or links
+        if(!empty($references)) {
+            $str = implode('|',$references);           
+            if(preg_match($regex,$str)) {
+                    $str = preg_replace($regex,"<span style='color:blue'>$1</span>",$str);
+                    if($str) {
+                        $arr = explode('|', $str);
+                        $vals = array_values($ar);
+                        $val_str = implode('|',$vals);
+                        $val_str = preg_replace($regex,"<span style='color:blue'>$1</span>",$val_str);
+                        $vals = explode('|',$val_str);
+                        return array_combine($arr,$vals);
+                    }
+                }
+                return false;
+            }
+          return false;
+        }
+    return $ar;
+}
+
+
 }

@@ -51,9 +51,9 @@ function init($options) {
 	 list($this->timestamp,$this->t_when) = explode(':',$tm);
 	 $this->dtype = $dtype;
 	}
-    if($search) {              
+    if($search) {     
        $this->search = $search;
-    }
+	}
     else if($fuzzy) {
        $this->fuzzy = $this->get_regex($fuzzy);
     }
@@ -61,7 +61,9 @@ function init($options) {
     ob_start();
     $this->recurse('.');
     if(!$this->match){
-        echo "No match for  $subdir:$page" ."\n";
+        if($page) $page = ":$page";
+        if($subdir) $subdir = "for $subdir";
+        echo "No match  $subdir$page" ."\n";
     }
     $contents = ob_get_contents();
     ob_end_clean();
@@ -102,6 +104,7 @@ function recurse($dir) {
 */
 function get_data($file,$id_path,$store_name="") {
     global $current;
+    $description = "";
     $data = file_get_contents($file);
     $data_array = @unserialize(file_get_contents($file));   
     $creator =""; $creator_id="";
@@ -135,6 +138,7 @@ function get_data($file,$id_path,$store_name="") {
         if(!preg_match($regex,$description)){
             return false;
 		}
+        $description = str_replace($search," [[$search]]",$description);    
 	}
    
     $this->match = true;  
@@ -178,9 +182,13 @@ function get_data($file,$id_path,$store_name="") {
                 $this->process_relation($isreferencedby,$references,$media,$firstimage,$haspart,$subject);
                 break;
              case 'description':              
-                $description = $this->getcurrent($header,'abstract');            
+                echo "<tr><th colspan='2'>Description</th></tr>\n"; 
+                if(!$description) {
+                    $description = htmlentities($this->getcurrent($header,'abstract'));
+                }
                 $description = preg_replace("/[\n]+/","\n", $description);
-                echo "[Description] \n$description\n";                   
+                echo "<td colspan='2'>$description</td></tr>\n";            
+                break;         
             default:
                  break;
             }
