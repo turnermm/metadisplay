@@ -338,7 +338,11 @@ function get_regex($str) {
 function check_listtypes($which,$regex) {   
     if($which == 'references' || $which == 'media') {
         $ar = $this->getcurrent('relation',$which);
+       // cli_plugin_metadisplay::write_debug($ar ."\n" . print_r($ar,1));
+       if(is_array($ar)) {
         $references = array_keys($ar); // references here refers to either images or links
+       }
+       else $references = $ar;
         if(!empty($references)) {
             $str = implode('|',$references);           
             if(preg_match($regex,$str)) {
