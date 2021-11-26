@@ -21,6 +21,6 @@ $lang['fuzzy_match'] = 'Fuzzy match';
 $lang['links'] = 'Links';
 $lang['media'] = 'Media';
 $lang['descr'] = 'Description';
-$lang['user'] = 'Optional userids';
+$lang['user'] = 'Only display files';
 $lang ['creator'] = 'Created by';
 $lang['lastmod'] = 'Modified by';

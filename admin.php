@@ -147,7 +147,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln('<input type="text" size = "12" name="cmd[month]" placeholder="Month (1-12)"  value = "' . $this->month .'"/>');
           ptln('<input type="text" size = "12" name="cmd[day]" placeholder="Day (1-31)" value = "'.$this->day .'" />');
           
-         /*User*/ 
+       
           ptln('<table><tr><td>&nbsp;&nbsp;');
           ptln($this->getLang('when') );          
           $dtype_c = "";
@@ -163,7 +163,11 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln($this->getLang('andor') . ' <input type="checkbox" '.$dtype_m .' id="pmodified" name="cmd[pmodified]"');
           ptln ('<ul><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
           ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ul>');
-          ptln('</td><td>Optional search terms (userids)<br />Created by: <input type = "text"></br>Last modified by: <input type = "text"></td></tr></table>');
+         
+         /*users*/
+         ptln('</td><td>' .$this->getLang('user') . '<ul><li style="color:black"><input type="radio" name="metauid" "id="mduserid" value = "creator"> <label for="mduserid">'. $this->getLang("creator") .'</label>'
+               . ': <input type = "text" size="15" placeholder="userid">'
+           .' <li style="color:black"><input type="radio" id="mdlastm" name="metauid" value = "lastmod"> <label for="mdlastm">Last modified by:</label> <input type = "text" size="15" placeholder="userid"></ul></td></tr></table>');
   
           
            /* Search */
