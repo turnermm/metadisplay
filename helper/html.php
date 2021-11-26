@@ -187,6 +187,8 @@ function get_data($file,$id_path,$store_name="") {
                 break;              
             case 'contributor':       
                  $contributors = $this->getSimpleKeyValue($this->getcurrent($header, null));
+                 $list = create_list($contributors);
+                 $this->insertListInTable($list,'Contributors');
                  break;   
             case 'relation':                
                 $isreferencedby = $this->getcurrent($header,'isreferencedby');
