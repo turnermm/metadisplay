@@ -29,7 +29,8 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     private $media_checked = "";
     private $links_checked = "";
     private $descr_checked = "";
-     
+    private $creator_checked = "";
+    private $lastmod_checked = ""; 
   
     /**
      * handle user request
@@ -80,6 +81,12 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
        else if($ltype == 'descr') {
            $this->descr_checked = 'checked';
        }  
+       else if($ltype == 'creator') {
+           $this->creator_checked = 'checked';
+       }
+       else if($ltype == 'lastmod') {
+           $this->lastmod_checked = 'checked';
+       }         
                
      //  msg($ltype,1);
        $cmdline .= " -l $ltype ";     
@@ -164,12 +171,6 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln ('<ul><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
           ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ul>');
          
-         /*users*/
-         ptln('</td><td>' .$this->getLang('user') . '<ul><li style="color:black"><input type="radio" name="metauid" "id="mduserid" value = "creator"> <label for="mduserid">'. $this->getLang("creator") .'</label>'
-               . ': <input type = "text" size="15" placeholder="userid">'
-           .' <li style="color:black"><input type="radio" id="mdlastm" name="metauid" value = "lastmod"> <label for="mdlastm">Last modified by:</label> <input type = "text" size="15" placeholder="userid"></ul></td></tr></table>');
-  
-          
            /* Search */
           ptln($this->getLang("search") . ':&nbsp; <input type = "text" size = "20" name = "cmd[search]" value="'.$this->search .'" placeholder = "Search term" />');
           $_fchecked = $this->stchecked_fuzzy; $_echecked = $this->stchecked_exact;
@@ -180,6 +181,9 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln(' <input type="radio" id="media" name="ltype" value="media" ' . $this->media_checked .'><label for="media"> ' .$this->getLang('media').'</label>');
           ptln(' <input type="radio" id="descr" name="ltype" value="descr" '. $this->descr_checked .'><label for="descr"> ' .$this->getLang('descr').'</label>');     
   
+         ptln('&nbsp;&nbsp;&nbsp;<input type="radio" id="mdcreator" name="ltype" value="creator" '. $this->creator_checked .'><label for="mdcreator"> ' .$this->getLang('creator').'</label>');
+                          ptln(' <input type="radio" id="mdlastmod" name="ltype" value="lastmod" ' . $this->lastmod_checked .'><label for="mdlastmod"> ' .$this->getLang('lastmod').'</label>');
+      
           ptln('<div><input type="checkbox" id = "testcl" name="cmd[testcl]"> Test Command line: '. $this->CommandLine .'</div>'); 
           ptln('</div>');          
  
