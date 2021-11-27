@@ -174,8 +174,8 @@ function get_data($file,$id_path,$store_name="") {
                 if($creator || $creator_id) break; 
             case 'creator':
             /*
-                creator – string, full name of the user who created the page
-                user – string, the login name of the user who created the page
+                creator: string, full name of the user who created the page
+                user: string, the login name of the user who created the page
             */
                 $creator = $this->getcurrent('creator', null);
                 $creator_id = $this->getcurrent('user', null);

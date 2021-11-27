@@ -23,4 +23,4 @@ $lang['media'] = 'Media';
 $lang['descr'] = 'Description';
 $lang['user'] = 'Only display files';
 $lang ['creator'] = 'Created by';
-$lang['lastmod'] = 'Modified by';
+$lang['contrib'] = 'Modified by';

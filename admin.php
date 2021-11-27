@@ -30,7 +30,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     private $links_checked = "";
     private $descr_checked = "";
     private $creator_checked = "";
-    private $lastmod_checked = ""; 
+    private $contrib_checked = ""; 
   
     /**
      * handle user request
@@ -84,11 +84,10 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
        else if($ltype == 'creator') {
            $this->creator_checked = 'checked';
        }
-       else if($ltype == 'lastmod') {
-           $this->lastmod_checked = 'checked';
+           else if($ltype == 'contrib') {
+               $this->contrib_checked = 'checked';
        }         
                
-     //  msg($ltype,1);
        $cmdline .= " -l $ltype ";     
     }
     }
@@ -182,7 +181,7 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln(' <input type="radio" id="descr" name="ltype" value="descr" '. $this->descr_checked .'><label for="descr"> ' .$this->getLang('descr').'</label>');     
   
          ptln('&nbsp;&nbsp;&nbsp;<input type="radio" id="mdcreator" name="ltype" value="creator" '. $this->creator_checked .'><label for="mdcreator"> ' .$this->getLang('creator').'</label>');
-                          ptln(' <input type="radio" id="mdlastmod" name="ltype" value="lastmod" ' . $this->lastmod_checked .'><label for="mdlastmod"> ' .$this->getLang('lastmod').'</label>');
+         ptln(' <input type="radio" id="mdcontrib" name="ltype" value="contrib" ' . $this->contrib_checked .'><label for="mdcontrib"> ' .$this->getLang('contrib').'</label>');
       
           ptln('<div><input type="checkbox" id = "testcl" name="cmd[testcl]"> Test Command line: '. $this->CommandLine .'</div>'); 
           ptln('</div>');          
