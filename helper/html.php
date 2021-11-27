@@ -173,6 +173,10 @@ function get_data($file,$id_path,$store_name="") {
             case 'user':
                 if($creator || $creator_id) break; 
             case 'creator':
+            /*
+                creator – string, full name of the user who created the page
+                user – string, the login name of the user who created the page
+            */
                 $creator = $this->getcurrent('creator', null);
                 $creator_id = $this->getcurrent('user', null);
                 $this->process_users($creator,$creator_id);  
@@ -190,7 +194,7 @@ function get_data($file,$id_path,$store_name="") {
                   echo "<tr><th colspan='2'>Contributors</th>\n"; 
                   echo '<tr><td>'; 
                   foreach($contributors as $userid=>$name) {
-                      $this->process_users($name,$userid, 'User');
+                      $this->process_users($name,$userid, '');
                   } 
                   echo '</td></tr>';
                  break;   
@@ -256,7 +260,11 @@ function process_users($creator,$user, $label = 'Created by') {
         if(empty($creator)) {
             echo "\n"; return;
          }
-        echo "<tr><td>$label:</td><td> $creator (userid: $user)</tr></td>\n";
+        if ($label) {  
+            $label .= ':';
+            echo "<tr><td>$label</td><td> $creator (userid: $user)</tr></td>\n";
+        }
+        else echo "<tr><td colspan='2'> $creator (userid: $user)</tr></td>\n";
 }
 
 function process_dates($created, $modified) {   
