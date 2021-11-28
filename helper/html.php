@@ -112,7 +112,7 @@ function get_data($file,$id_path,$store_name="") {
     $data = file_get_contents($file);
     $data_array = @unserialize(file_get_contents($file));   
     $creator =""; $creator_id="";
-  
+    $contributors = array(); 
     if ($data_array === false || !is_array($data_array)) return; 
     if (!isset($data_array['current'])) return false;
 
@@ -153,6 +153,26 @@ function get_data($file,$id_path,$store_name="") {
             $references = $this->check_listtypes('references',$regex);
             if(!$references) return false;
         } 
+        else if($this->ltype == 'contrib') {
+            $contribs = $this->getcurrent('contributor', null); 
+            if(!$contribs) return false;
+            foreach($contribs as $userid => $name )  {
+               $userid = preg_replace($regex,"<span style='color:blue'>$1</span>",$userid);
+               $name = preg_replace($regex,"<span style='color:blue'>$1</span>",$name);
+               $contributors[$userid] = $name;
+            } 
+        }
+        else if($this->ltype == 'creator') {
+             $creator = $this->getcurrent('creator', null); 
+             $creator_id = $this->getcurrent('user', null);
+             if(!$creator && !$creator_id) return false;
+             if(!preg_match($regex,$creator) && !preg_match($regex,$creator_id)) return;
+             $creator=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator);
+             $creator_id=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator_id);
+             cli_plugin_metadisplay::write_debug("$store_name\n" . $creator . '/' . $creator_id);
+         }    
+            
+            
         
     }
    
@@ -177,8 +197,12 @@ function get_data($file,$id_path,$store_name="") {
                 creator: string, full name of the user who created the page
                 user: string, the login name of the user who created the page
             */
+                if(!$creator) {
                 $creator = $this->getcurrent('creator', null);
+                }
+                if(!$creator_id) {
                 $creator_id = $this->getcurrent('user', null);
+                }
                 $this->process_users($creator,$creator_id);  
                  break;
            
@@ -190,7 +214,10 @@ function get_data($file,$id_path,$store_name="") {
                 }
                 break;              
             case 'contributor':       
+                 if(empty($contributors)) {             
                  $contributors = $this->getcurrent($header, null);
+                 }
+                 if(!$contributors) break;
                   echo "<tr><th colspan='2'>Contributors</th>\n"; 
                   echo '<tr><td>'; 
                   foreach($contributors as $userid=>$name) {
