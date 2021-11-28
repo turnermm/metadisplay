@@ -139,7 +139,7 @@ function get_data($file,$id_path,$store_name="") {
     }
     if($regex) {  
         if($this->ltype == 'descr') {     
-    $description = $this->getcurrent('description','abstract');
+        $description = $this->getcurrent('description','abstract');
         if(!preg_match($regex,$description)){
             return false;
         } 
@@ -156,11 +156,13 @@ function get_data($file,$id_path,$store_name="") {
         else if($this->ltype == 'contrib') {
             $contribs = $this->getcurrent('contributor', null); 
             if(!$contribs) return false;
-            foreach($contribs as $userid => $name )  {
-               $userid = preg_replace($regex,"<span style='color:blue'>$1</span>",$userid);
-               $name = preg_replace($regex,"<span style='color:blue'>$1</span>",$name);
-               $contributors[$userid] = $name;
-            } 
+            if(!array_key_exists($search,$contribs)) return;
+            $val = $contribs[$search];
+            unset($contribs[$search]);
+            $search = "<span style='color:blue'>$search</span>";
+            $contribs[$search] = $val;
+            $contributors = $contribs;
+             
         }
         else if($this->ltype == 'creator') {
              $creator = $this->getcurrent('creator', null); 
@@ -169,7 +171,6 @@ function get_data($file,$id_path,$store_name="") {
              if(!preg_match($regex,$creator) && !preg_match($regex,$creator_id)) return;
              $creator=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator);
              $creator_id=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator_id);
-            // cli_plugin_metadisplay::write_debug("$store_name\n" . $creator . '/' . $creator_id);
          }    
             
             

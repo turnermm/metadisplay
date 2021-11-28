@@ -120,7 +120,7 @@ public function write_debug($msg) {
 //return;
 	$dfile = $metafile = metaFN("dbg:debug",'.dbg');
 	$date_time = date('Y-m-d h:i:s');
-	io_saveFile($dfile , "$date_time\n$msg\n\n",true);
+	io_saveFile($dfile , "$date_time\n$msg\n",true);
 }	
 }  //end class definition
 
