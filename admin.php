@@ -29,7 +29,8 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
     private $media_checked = "";
     private $links_checked = "";
     private $descr_checked = "";
-     
+    private $creator_checked = "";
+    private $contrib_checked = ""; 
   
     /**
      * handle user request
@@ -80,8 +81,13 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
        else if($ltype == 'descr') {
            $this->descr_checked = 'checked';
        }  
+       else if($ltype == 'creator') {
+           $this->creator_checked = 'checked';
+       }
+           else if($ltype == 'contrib') {
+               $this->contrib_checked = 'checked';
+       }         
                
-     //  msg($ltype,1);
        $cmdline .= " -l $ltype ";     
     }
     }
@@ -135,17 +141,21 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln('  <input type="hidden" name="do"   value="admin" />');
           ptln('<input type="hidden" name="page" value="'.$this->getPluginName().'" />');
           formSecurityToken();
-     
+          /*Namespace/page*/
           ptln('<div>Namespace: <input type="text" name="cmd[namespace]" placeholder="namespace:n2:n3. . ." value = "' . $this->start_dir .'" />');
           ptln('&nbsp; Page: <input type="text" name="cmd[page]" placeholder="page without extension" value = "' . $this->page .'" />');
           ptln('&nbsp; ' .$this->getLang('exact').':&nbsp <input type = "checkbox" name="cmd[exact]" />');
+
+          /*Date*/
           ptln('<br />');
           ptln($this->getLang('date') . ':&nbsp;&nbsp;'); 
           ptln('<input type="text" size = "6" name="cmd[year]" placeholder="Year"  value = "'. $this->year  .'"/>');
           ptln('<input type="text" size = "12" name="cmd[month]" placeholder="Month (1-12)"  value = "' . $this->month .'"/>');
           ptln('<input type="text" size = "12" name="cmd[day]" placeholder="Day (1-31)" value = "'.$this->day .'" />');
-          ptln('<br />' . $this->getLang('when') );
           
+       
+          ptln('<table><tr><td>&nbsp;&nbsp;');
+          ptln($this->getLang('when') );          
           $dtype_c = "";
           $dtype_m = "";
           if($this->dtype == 'modified') {
@@ -159,9 +169,8 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln($this->getLang('andor') . ' <input type="checkbox" '.$dtype_m .' id="pmodified" name="cmd[pmodified]"');
           ptln ('<ul><li> <input type="radio" id="earlier" name="when" value="earlier"><label for="earlier"> ' .$this->getLang('earlier').'</label></li>');
           ptln('<li> <input type="radio" id="later" name="when" value="later"><label for="later"> ' .$this->getLang('later').'</label></li></ul>');
-          
+         
            /* Search */
-         // ptln("<br />Only description field is currently active <br />");
           ptln($this->getLang("search") . ':&nbsp; <input type = "text" size = "20" name = "cmd[search]" value="'.$this->search .'" placeholder = "Search term" />');
           $_fchecked = $this->stchecked_fuzzy; $_echecked = $this->stchecked_exact;
           ptln ('&nbsp;&nbsp;&nbsp;<input type="radio" id="exact_match" name="cmd[srch_type]" value="exact" ' ." $_echecked " .'/><label for="exact_match"> '.$this->getLang('exact_match').'</label>');
@@ -171,6 +180,9 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
           ptln(' <input type="radio" id="media" name="ltype" value="media" ' . $this->media_checked .'><label for="media"> ' .$this->getLang('media').'</label>');
           ptln(' <input type="radio" id="descr" name="ltype" value="descr" '. $this->descr_checked .'><label for="descr"> ' .$this->getLang('descr').'</label>');     
   
+         ptln('&nbsp;&nbsp;&nbsp;<input type="radio" id="mdcreator" name="ltype" value="creator" '. $this->creator_checked .'><label for="mdcreator"> ' .$this->getLang('creator').'</label>');
+         ptln(' <input type="radio" id="mdcontrib" name="ltype" value="contrib" ' . $this->contrib_checked .'><label for="mdcontrib"> ' .$this->getLang('contrib').'</label>');
+      
           ptln('<div><input type="checkbox" id = "testcl" name="cmd[testcl]"> Test Command line: '. $this->CommandLine .'</div>'); 
           ptln('</div>');          
  

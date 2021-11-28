@@ -112,7 +112,7 @@ function get_data($file,$id_path,$store_name="") {
     $data = file_get_contents($file);
     $data_array = @unserialize(file_get_contents($file));   
     $creator =""; $creator_id="";
-  
+    $contributors = array(); 
     if ($data_array === false || !is_array($data_array)) return; 
     if (!isset($data_array['current'])) return false;
 
@@ -153,6 +153,26 @@ function get_data($file,$id_path,$store_name="") {
             $references = $this->check_listtypes('references',$regex);
             if(!$references) return false;
         } 
+        else if($this->ltype == 'contrib') {
+            $contribs = $this->getcurrent('contributor', null); 
+            if(!$contribs) return false;
+            foreach($contribs as $userid => $name )  {
+               $userid = preg_replace($regex,"<span style='color:blue'>$1</span>",$userid);
+               $name = preg_replace($regex,"<span style='color:blue'>$1</span>",$name);
+               $contributors[$userid] = $name;
+            } 
+        }
+        else if($this->ltype == 'creator') {
+             $creator = $this->getcurrent('creator', null); 
+             $creator_id = $this->getcurrent('user', null);
+             if(!$creator && !$creator_id) return false;
+             if(!preg_match($regex,$creator) && !preg_match($regex,$creator_id)) return;
+             $creator=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator);
+             $creator_id=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator_id);
+            // cli_plugin_metadisplay::write_debug("$store_name\n" . $creator . '/' . $creator_id);
+         }    
+            
+            
         
     }
    
@@ -160,7 +180,7 @@ function get_data($file,$id_path,$store_name="") {
     echo $store_name ."\n";
     echo "\n" . '<table style="border-top:2px solid">' ."\n";
     echo "<tr><th colspan='2'>$id_path</th></tr>\n";	
-    $keys =  array('title','date','creator','last_change','relation', 'description');
+    $keys =  array('title','date','creator','last_change','relation', 'description','contributor');
     foreach ($keys AS $header) {
         switch($header) {
             case 'title':               
@@ -173,8 +193,16 @@ function get_data($file,$id_path,$store_name="") {
             case 'user':
                 if($creator || $creator_id) break; 
             case 'creator':
+            /*
+                creator: string, full name of the user who created the page
+                user: string, the login name of the user who created the page
+            */
+                if(!$creator) {
                 $creator = $this->getcurrent('creator', null);
+                }
+                if(!$creator_id) {
                 $creator_id = $this->getcurrent('user', null);
+                }
                 $this->process_users($creator,$creator_id);  
                  break;
            
@@ -186,7 +214,16 @@ function get_data($file,$id_path,$store_name="") {
                 }
                 break;              
             case 'contributor':       
-                 $contributors = $this->getSimpleKeyValue($this->getcurrent($header, null));
+                 if(empty($contributors)) {             
+                 $contributors = $this->getcurrent($header, null);
+                 }
+                 if(!$contributors) break;
+                  echo "<tr><th colspan='2'>Contributors</th>\n"; 
+                  echo '<tr><td>'; 
+                  foreach($contributors as $userid=>$name) {
+                      $this->process_users($name,$userid, '');
+                  } 
+                  echo '</td></tr>';
                  break;   
             case 'relation':                
                 $isreferencedby = $this->getcurrent($header,'isreferencedby');
@@ -246,11 +283,15 @@ function getSimpleKeyValue($ar,$which="") {
     return $retv;
 }
 
-function process_users($creator,$user) {
+function process_users($creator,$user, $label = 'Created by') {
         if(empty($creator)) {
             echo "\n"; return;
          }
-        echo "<tr><td>Created by:</td><td> $creator (userid: $user)</tr></td>\n";
+        if ($label) {  
+            $label .= ':';
+            echo "<tr><td>$label</td><td> $creator (userid: $user)</tr></td>\n";
+        }
+        else echo "<tr><td colspan='2'> $creator (userid: $user)</tr></td>\n";
 }
 
 function process_dates($created, $modified) {   
