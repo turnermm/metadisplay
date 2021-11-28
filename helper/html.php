@@ -169,7 +169,7 @@ function get_data($file,$id_path,$store_name="") {
              if(!preg_match($regex,$creator) && !preg_match($regex,$creator_id)) return;
              $creator=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator);
              $creator_id=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator_id);
-             cli_plugin_metadisplay::write_debug("$store_name\n" . $creator . '/' . $creator_id);
+            // cli_plugin_metadisplay::write_debug("$store_name\n" . $creator . '/' . $creator_id);
          }    
             
             
