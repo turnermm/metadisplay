@@ -13,7 +13,7 @@ private $helper;
 protected function setup(Options $options) {
     $options->setHelp('Displays metadata for specified namespace or page' . "\n".
     "USAGE (from Command Line):\n" .   "php plugin.php metadisplay " .
-     "[-h] [--no-colors]  [--loglevel ] \n [[-n --namespace|.] [[-p -page] [-e --exact ]][-c --cmdL]][[-b --before|-a --after] timestamp -d -dtype [modified|created]] [[-s --search|-f --fuzzy] [search-term]] -c --cmdL. "   
+     "[-h] [--no-colors]  [--loglevel ] \n [[-n --namespace|.] [[-p -page] [-e --exact ]][-c --cmdL]][[-b --before|-a --after] timestamp -d -dtype [modified|created]] [[-s --search|-f --fuzzy] [search-term] [-l --ltype contrib|creator]] -c --cmdL. "   
 	 . "\n" . '<br /><b>timestamp</b> can be timestamp or numerical date of the form: <br /><b>Year-Month-Day</b>' 
     );
     $options->registerOption('version', 'print version and exit', 'v');
@@ -27,7 +27,7 @@ protected function setup(Options $options) {
     $options->registerOption('dtype', 'sets whether file\'s timestamp is read from "created" or "modified" field', 'd');	  
     $options->registerOption('search', 'set to search term, exact match', 's');
     $options->registerOption('fuzzy', 'set to search term, fuzzy match', 'f');
-    $options->registerOption('ltype', 'set to link type for search: link, media', 'l');    
+    $options->registerOption('ltype', 'set to search type: link, media, creator, contrib (contrib = contributor)', 'l');    
 }
 
 // implement your code
@@ -104,11 +104,6 @@ function get_commandLineOptions($opts) {
       $ret = array('namespace'=>$namespace,'page'=>$page,'exact'=>$exact,'search'=>$search,'fuzzy'=>$fuzzy,
            'cl'=>$cl,'tm'=>$tm,'dtype'=>$dtype, 'ltype'=>$ltype);
       return $ret;     
-/*      
-      $this->write_debug(print_r($ret,1));
-      $this->write_debug("ns: $namespace, page: $page, exact: $exact, 'search: $search,'fuzzy: $fuzzy',
-                   'cl: ' $cl,'tm: $tm, 'dtype: $dtype");      
-*/                   
 }
 
 function get_timestamp($date_str){
