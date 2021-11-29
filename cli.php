@@ -117,7 +117,7 @@ function get_timestamp($date_str){
     return  mktime($hour, $min, $second,$month,$day,$year);
 }
 public function write_debug($msg) {	
-//return;
+return;
 	$dfile = $metafile = metaFN("dbg:debug",'.dbg');
 	$date_time = date('Y-m-d h:i:s');
 	io_saveFile($dfile , "$date_time\n$msg\n",true);
