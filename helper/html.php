@@ -139,7 +139,7 @@ function get_data($file,$id_path,$store_name="") {
     }
     if($regex) {  
         if($this->ltype == 'descr') {     
-    $description = $this->getcurrent('description','abstract');
+        $description = $this->getcurrent('description','abstract');
         if(!preg_match($regex,$description)){
             return false;
         } 
@@ -156,30 +156,31 @@ function get_data($file,$id_path,$store_name="") {
         else if($this->ltype == 'contrib') {
             $contribs = $this->getcurrent('contributor', null); 
             if(!$contribs) return false;
-            foreach($contribs as $userid => $name )  {
-               $userid = preg_replace($regex,"<span style='color:blue'>$1</span>",$userid);
-               $name = preg_replace($regex,"<span style='color:blue'>$1</span>",$name);
-               $contributors[$userid] = $name;
-            } 
+            if(!array_key_exists($search,$contribs)) return;
+            $val = $contribs[$search];
+            unset($contribs[$search]);
+            $search = "<span style='color:blue'>$search</span>";
+            $contribs[$search] = $val;
+            $contributors = $contribs;
+             
         }
         else if($this->ltype == 'creator') {
              $creator = $this->getcurrent('creator', null); 
-             $creator_id = $this->getcurrent('user', null);
+             $creator_id = $this->getcurrent('user', null);          
              if(!$creator && !$creator_id) return false;
              if(!preg_match($regex,$creator) && !preg_match($regex,$creator_id)) return;
              $creator=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator);
-             $creator_id=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator_id);
-            // cli_plugin_metadisplay::write_debug("$store_name\n" . $creator . '/' . $creator_id);
+             $creator_id=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator_id);           
          }    
             
             
         
-    }
+    }   
    
     $this->match = true;
     echo $store_name ."\n";
     echo "\n" . '<table style="border-top:2px solid">' ."\n";
-    echo "<tr><th colspan='2'>$id_path</th></tr>\n";	
+    echo "<tr><th colspan='2'>$id_path</th></tr>\n";
     $keys =  array('title','date','creator','last_change','relation', 'description','contributor');
     foreach ($keys AS $header) {
         switch($header) {
@@ -215,7 +216,7 @@ function get_data($file,$id_path,$store_name="") {
                 break;              
             case 'contributor':       
                  if(empty($contributors)) {             
-                 $contributors = $this->getcurrent($header, null);
+                   $contributors = $this->getcurrent($header, null);
                  }
                  if(!$contributors) break;
                   echo "<tr><th colspan='2'>Contributors</th>\n"; 

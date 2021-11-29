@@ -113,7 +113,7 @@ function get_data($file,$id_path,$store_name="") {
     $data = file_get_contents($file);
     $data_array = @unserialize(file_get_contents($file));   
     $creator =""; $creator_id="";
-  
+    $contributors = array(); 
     if ($data_array === false || !is_array($data_array)) return; 
     if (!isset($data_array['current'])) return false;
 
@@ -154,6 +154,27 @@ function get_data($file,$id_path,$store_name="") {
             $references = $this->check_listtypes('references',$regex);
             if(!$references) return false;
         } 
+        else if($this->ltype == 'contrib') {
+            $contribs = $this->getcurrent('contributor', null); 
+            if(!$contribs) return false;
+            if(!array_key_exists($search,$contribs)) return;
+            $val = $contribs[$search];
+            unset($contribs[$search]);
+            $search = "<span style='color:blue'>$search</span>";
+            $contribs[$search] = $val;
+            $contributors = $contribs;
+             
+        }
+        else if($this->ltype == 'creator') {
+             $creator = $this->getcurrent('creator', null); 
+             $creator_id = $this->getcurrent('user', null);          
+             if(!$creator && !$creator_id) return false;
+             if(!preg_match($regex,$creator) && !preg_match($regex,$creator_id)) return;
+             $creator=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator);
+             $creator_id=preg_replace($regex,"<span style='color:blue'>$1</span>",$creator_id);           
+         }    
+            
+            
         
 	}
    
@@ -161,7 +182,7 @@ function get_data($file,$id_path,$store_name="") {
     echo "\n----------------\n$store_name";  
     echo "\n$id_path\n";  
     
-    $keys =  array('title','date','creator','last_change','relation','description');
+    $keys =  array('title','date','creator','last_change','relation', 'description','contributor');
     foreach ($keys AS $header) {
         switch($header) {
             case 'title':               
@@ -174,8 +195,16 @@ function get_data($file,$id_path,$store_name="") {
             case 'user':
                 if($creator || $creator_id) break; 
             case 'creator':
+            /*
+                creator: string, full name of the user who created the page
+                user: string, the login name of the user who created the page
+            */
+                if(!$creator) {
                 $creator = $this->getcurrent('creator', null);
+                }
+                if(!$creator_id) {
                 $creator_id = $this->getcurrent('user', null);
+                }
                 $this->process_users($creator,$creator_id);  
                  break;
            
@@ -186,12 +215,25 @@ function get_data($file,$id_path,$store_name="") {
                 }
                 break;              
             case 'contributor':       
-                 $contributors = $this->getSimpleKeyValue($this->getcurrent($header, null));
+                 if(empty($contributors)) {             
+                   $contributors = $this->getcurrent($header, null);
+                 }
+                 if(!$contributors) break;
+                  echo "<tr><th colspan='2'>Contributors</th>\n"; 
+                  echo '<tr><td>'; 
+                  foreach($contributors as $userid=>$name) {
+                      $this->process_users($name,$userid, '');
+                  } 
+                  echo '</td></tr>';
                  break;   
             case 'relation':                
                 $isreferencedby = $this->getcurrent($header,'isreferencedby');
+                if(!$references) {
                 $references = $this->getcurrent($header,'references');
+                }
+                if(!$media) {
                 $media = $this->getcurrent($header,'media');
+                }
                 $firstimage = $this->getcurrent($header,'firstimage');
                 $haspart = $this->getcurrent($header,'haspart');
                 $subject = $this->getcurrent($header,'subject');
@@ -241,11 +283,15 @@ function getSimpleKeyValue($ar,$which="") {
     return $retv;
 }
 
-function process_users($creator,$user) {
+function process_users($creator,$user, $label = 'Created by') {
         if(empty($creator)) {
             echo "\n"; return;
          }
-        echo "\n\nCreated by: $creator (userid: $user)\n";
+        if ($label) {  
+            $label .= ':';
+            echo "\n$label $creator (userid: $user)\n";
+        }
+        else echo " $creator (userid: $user)\n";
 }
 
 function process_dates($created, $modified) {   
