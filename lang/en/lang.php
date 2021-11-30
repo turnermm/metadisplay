@@ -24,3 +24,4 @@ $lang['descr'] = 'Description';
 $lang['user'] = 'Only display files';
 $lang ['creator'] = 'Created by';
 $lang['contrib'] = 'Modified by';
+$lang['nofuzzy'] = 'fuzzy searches cannot be used for contributors';
