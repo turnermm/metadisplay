@@ -86,6 +86,10 @@ class admin_plugin_metadisplay extends DokuWiki_Admin_Plugin {
        }
            else if($ltype == 'contrib') {
                $this->contrib_checked = 'checked';
+           if($commands['srch_type'] == 'fuzzy') {
+               msg($this->getLang('nofuzzy'),2);              
+           }           
+               
        }         
                
        $cmdline .= " -l $ltype ";     

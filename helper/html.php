@@ -45,6 +45,7 @@ function init($options) {
     $this->page=str_replace(':', "",$page); 
     if($subdir) {
          $subdir = trim($subdir,':\\\/');
+         $subdir = str_replace(':','/',$subdir);
          $this->subdir ="/$subdir";   
          chdir($subdir);
     }
@@ -66,7 +67,7 @@ function init($options) {
     ob_start();
     $this->recurse('.');
     if(!$this->match){
-        echo "No match for  $subdir:$page" ."<br />\n";
+        echo "No match for  $subdir/$page" ."<br />\n";
     }
     $contents = ob_get_contents();
     ob_end_clean();
