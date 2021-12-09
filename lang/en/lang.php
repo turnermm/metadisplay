@@ -23,5 +23,5 @@ $lang['media'] = 'Media';
 $lang['descr'] = 'Description';
 $lang['user'] = 'Only display files';
 $lang ['creator'] = 'Created by';
-$lang['contrib'] = 'Modified by';
+$lang['contrib'] = 'Contributors';
 $lang['nofuzzy'] = 'fuzzy searches cannot be used for contributors';
